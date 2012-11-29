@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <title>riveter specs</title>
+    <link rel="stylesheet" href="/ext/mocha.css" />
+</head>
+<body>
+    <div id="mocha"></div>
+    <script src="/ext/jquery-1.8.2.js"></script>
+    <script src="/ext/underscore.js"></script>
+    <script src="/ext/expect.js"></script>
+    <script src="/ext/mocha.js"></script>
+    <script type="text/javascript">
+        mocha.setup({ ui: 'bdd', timeout: 60000, ignoreLeaks: true });
+    </script>
+    <script type="text/javascript" src="../lib/browser/riveter.js"></script>
+    <script type="text/javascript" src="mixin.spec.js"></script>
+    <script type="text/javascript" src="inherits.spec.js"></script>
+    <script type="text/javascript" src="extend.spec.js"></script>
+    <script type="text/javascript">
+        mocha.run();
+    </script>
+</body>
+</html>

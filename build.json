@@ -1,0 +1,11 @@
+{
+    "anvil.uglify" : {
+        "exclude" : ["./node/riveter.js"]
+    },
+	"anvil.http" : {
+		"paths" : {
+			"/"             : "./"
+		}
+	},
+	"dependencies" : [ "anvil.http", "anvil.uglify" ]
+}

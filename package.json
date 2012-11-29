@@ -1,0 +1,54 @@
+{
+    "name" : "riveter",
+    "description" : "Mix-in, inheritance and constructor extend behavior for your JavaScript enjoyment.",
+    "version" : "0.1.0",
+    "homepage" : "https://github.com/a2labs/riveter",
+    "repository" : {
+        "type" : "git",
+        "url" : "git://github.com/a2labs/riveter.git"
+    },
+    "author" : "appendTo, LLC (http://appendTo.com)",
+    "contributors": [
+        {
+            "name"  : "Jim Cowart",
+            "email" : "WhyNotJustComment@OnMyBlog.com",
+            "url"   : "http://freshbrewedcode.com/jimcowart"
+        },
+        {
+          "name"  : "Nicholas Cloud",
+          "email" : "WhyNotJustComment@OnMyBlog.com",
+          "url"   : "http://nicholascloud.com"
+        }
+    ],
+    "keywords": [
+        "mixin",
+        "mix-in",
+        "inherit",
+        "extend",
+        "constructor"
+    ],
+    "bugs" : {
+        "email" : "PleaseJustUseTheIssuesPage@github.com",
+        "url" : "http://github.com/a2labs/riveter/issues"
+    },
+    "directories" : { "lib" : "lib/node" },
+    "main" : "lib/node/riveter.js",
+    "engines" : {
+        "node" : ">=0.4.0"
+    },
+    "dependencies" : {
+        "underscore" : ">=1.4.0"
+    },
+    "bundleDependencies" : [ "underscore" ],
+    "devDependencies" : {},
+    "licenses" : [
+        {
+            "type" : "MIT",
+            "url"  : "http://opensource.org/licenses/MIT"
+        },
+        {
+            "type" : "GPL",
+            "url"  : "http://opensource.org/licenses/GPL-2.0"
+        }
+    ]
+}
