@@ -27,6 +27,7 @@ var Person = function(name) {
 Person.prototype.greet = function() {
     return "Hi, " + this.name;
 };
+Person.mixin = riveter.mixin;
 
 var Order = function(id) {
     this.id = id;
@@ -34,10 +35,12 @@ var Order = function(id) {
 Order.prototype.addItem = function(item) {
     // some behavior….
 };
+Order.mixin = riveter.mixin;
 
 var Product = function(sku) {
     this.sku = sku;
 };
+Product.mixin = riveter.mixin;
 
 var pubSub = {
     publish: mediator.publish,
