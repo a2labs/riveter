@@ -1,3 +1,5 @@
+var riveter = {};
+
 riveter.ensureHelpers = function(fn) {
   if(!fn.hasOwnProperty('extend')) {
     fn.extend = riveter.extend;
