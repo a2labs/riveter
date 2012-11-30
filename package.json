@@ -40,7 +40,10 @@
         "underscore" : ">=1.4.0"
     },
     "bundleDependencies" : [ "underscore" ],
-    "devDependencies" : {},
+    "devDependencies" : [ "mocha" ],
+    "scripts": {
+        "test": "./node_modules/mocha/bin/mocha --ui bdd --reporter spec --ignore-leaks -t 60000 ./spec"
+    },
     "licenses" : [
         {
             "type" : "MIT",

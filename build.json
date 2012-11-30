@@ -1,11 +1,16 @@
 {
-    "anvil.uglify" : {
-        "exclude" : ["./node/riveter.js"]
-    },
+	"anvil.uglify" : {
+		"all": true
+	},
 	"anvil.http" : {
 		"paths" : {
-			"/"             : "./"
+			"/" : "./"
 		}
+	},
+	"anvil.identify": {
+		"ignore": [
+			"/spec\/.*[.]html/"
+		]
 	},
 	"dependencies" : [ "anvil.http", "anvil.uglify" ]
 }
