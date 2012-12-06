@@ -18,6 +18,12 @@ describe("riveter - inherits", function(){
     return "Hi, " + this.name;
   };
 
+  var VisitorProto = {
+    sayGoodbye: function() {
+      return "Buh Bye....";
+    }
+  };
+
   var Employee = function(name, title, salary) {
     Employee.__super.call(this,name);
     this.title = title;
@@ -40,7 +46,8 @@ describe("riveter - inherits", function(){
     }
   };
 
-  riveter.inherits(Person, Employee);
+  riveter.inherits(Person, Employee, { getInstance: function(name, title, salary) { return new Employee(name, title, salary); }});
+  var Visitor = riveter.inherits(Person, VisitorProto);
   var CEO = riveter.inherits(Employee, CEOProto);
 
   describe("when passing constructor functions for parent and child", function(){
@@ -57,6 +64,10 @@ describe("riveter - inherits", function(){
       expect(Employee.__super.prototype).to.be(Person.prototype);
       expect(Employee.__super).to.be(Person);
       expect(Employee.__super__).to.be(Person.prototype);
+    });
+    it('should apply shared/constructor methods', function(){
+      expect(Employee.hasOwnProperty("getInstance")).to.be(true);
+      expect(Employee.getInstance("Test", "Tester", 100) instanceof Employee).to.be(true);
     });
     it('should call the child constructor', function(){
       expect(whichCtor).to.eql(["Person", "Employee"]);
@@ -78,7 +89,7 @@ describe("riveter - inherits", function(){
     });
   });
 
-  describe("when passing object literal as the child", function() {
+  describe("when passing object literal (with a constructor) as the child", function() {
     var ceo;
     beforeEach(function(){
       ceo = new CEO("Brian Whitfield", "CEO", 1000000000, true);
@@ -115,6 +126,38 @@ describe("riveter - inherits", function(){
       expect(ceo.hasOwnProperty("shouldExpectFbiRaid")).to.be(true);
       expect(ceo.greet).to.be(Person.prototype.greet);
       expect(ceo.giveRaise).to.be(Employee.prototype.giveRaise);
+    });
+  });
+
+  describe("when passing object literal (with no constructor method) as the child", function() {
+    var visitor;
+    beforeEach(function(){
+      visitor = new Visitor("FBI+IRS");
+    });
+    afterEach(function(){
+      whichCtor = [];
+    });
+
+    it('should mutate the child constructor function', function(){
+      expect(Visitor !== Person).to.be(true);
+      expect(Visitor.__super.prototype).to.be(Person.prototype);
+      expect(Visitor.__super).to.be(Person);
+      expect(Visitor.__super__).to.be(Person.prototype);
+    });
+    it('should call the parent constructor', function(){
+      expect(whichCtor).to.eql(["Person"]);
+    });
+    it('should produce expected instance when used to instantiate new object', function(){
+      expect(visitor.name).to.be("FBI+IRS");
+      expect(visitor.greet()).to.be("Hi, FBI+IRS");
+      expect(visitor.sayGoodbye()).to.be("Buh Bye....");
+    });
+    it('should properly construct the instance prototype', function() {
+      expect(visitor.hasOwnProperty("name")).to.be(true);
+      expect(visitor.hasOwnProperty("greet")).to.be(false);
+      expect(visitor.hasOwnProperty("sayGoodbye")).to.be(false);
+      expect(visitor.greet).to.be(Person.prototype.greet);
+      expect(visitor.sayGoodbye).to.be(VisitorProto.sayGoodbye);
     });
   });
 
