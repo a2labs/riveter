@@ -125,7 +125,6 @@ var CEOProto = {
     constructor: function(name, title, salary, shouldExpectFbiRaid) {
         CEOProto.constructor.__super.call(this,name, title, salary);
         this.shouldExpectFbiRaid = shouldExpectFbiRaid;
-        whichCtor.push("CEO");
     }
 };
 
