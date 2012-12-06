@@ -9,25 +9,26 @@ riveter.ensureHelpers = function(fn) {
   }
 };
 
-riveter.inherits = function(parent, sub, ctorProps) {
+riveter.inherits = function(parent, child, ctorProps) {
   var childProto;
   var TmpCtor = function() {};
   var Child = function() { parent.apply(this, arguments); };
-  if(typeof sub === 'object') {
-    if(sub.hasOwnProperty('constructor')) {
-      Child = sub.constructor;
+  if(typeof child === 'object') {
+    if(child.hasOwnProperty('constructor')) {
+      Child = child.constructor;
     }
-    childProto = sub;
+    childProto = child;
   } else {
-    childProto = sub.prototype;
+    Child = child;
+    childProto = child.prototype;
   }
   _.extend(Child, parent, ctorProps);
   TmpCtor.prototype = parent.prototype;
   Child.prototype = new TmpCtor();
   _.extend(Child.prototype, childProto, { constructor: Child });
+  Child.__super = parent;
+  // Next line is all about Backbone compatibility
   Child.__super__ = parent.prototype;
-  Child.prototype.parent = parent.prototype;
-  Child.prototype.parent.constructor = parent;
   riveter.ensureHelpers(Child);
   return Child;
 };

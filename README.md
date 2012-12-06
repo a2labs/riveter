@@ -16,9 +16,11 @@ The boilerplate/ceremonial code around managing mix-ins and inheritance in JavaS
 riveter is heavily informed by appendTo projects using [backbone.js]().  We've often wanted the backbone-style extend functionality, but with some slight tweaks, while maitaining compatibility with backbone objects.  riveter is our attempt to standardize that approach - so you can use it with or without backbone
 
 ### How do I use it?
-####mixins
+####mixin
 
-The `mixin` call can be used to mix blocks of behavior into a constructor function. For example, let's say you had a pub/sub mixin, which you wanted to use across multiple constructor functions, to ensure that objects produced by those constructors had a `publish` and `subscribe` call. Of course, you could add those calls to the individual prototypes of your various constructor functions, or you could have a common 'base' prototype from which each inherit. Or you could do this:
+`.constructorFn.mixin(mixin1 [, mixin2, mixin3, etc.]);`
+
+The `mixin` call can be used to mix blocks of behavior into a constructor function (of course, it must be attached to that constructor function first). `mixin` returns a new constructor function, with the mixin members on the resulting 'parent' prototype, but still-overridable by prototype or instance members applied from that point on. For example, let's say you had a pub/sub mixin, which you wanted to use across multiple constructor functions, to ensure that objects produced by those constructors had a `publish` and `subscribe` call. Of course, you could add those calls to the individual prototypes of your various constructor functions, or you could have a common 'base' prototype from which each inherit. Or you could do this:
 
 ```javascript
 var Person = function(name) {
@@ -88,7 +90,62 @@ var pubSub = {
 In the above example, our mixin is now structured slightly differently.  The actual mixin is on the `mixin` member, and we've provided a `_postInit` method.  `_postInit` will execute just after the constructor function, and is passed any arguments that were passed to the constructor. You can optionally use the `_preInit` method to have your setup execute just before the constructor function executes. Although we haven't found a real use-case **yet**, you can provide both a `_preInit` and a `_postInit` method if you need to get way fancier than we have.
 
 ####inherits
-…Examples coming…
+`constructorFn.inherits(parent, child [, ctorProps]);`
+
+The `inherits` method allows you to specific a `parent` contructor function from which a `child` constructor function can inherit.  Optionally, the `child` can be an object literal (which is then used at the prototype of a new instance).  You can optionally provide the `ctorProps` argument, which applies 'shared' methods to the constructor function itself. Really, `inherits` is quite similar to many existing implementations which provide helper utilities around prototypical inheritance.  It's worth noting that when `child` inherits from `parent`, it's prototype will be a new instance of `parent`.  Some examples:
+
+```javascript
+var Person = function(name) {
+    this.name = name;
+};
+Person.prototype.greet = function() {
+    return "Hi, " + this.name;
+};
+
+var Employee = function(name, title, salary) {
+    Employee.__super.call(this,name);
+    this.title = title;
+    this.salary = salary;
+};
+
+Employee.prototype.giveRaise = function(amount) {
+    this.salary += amount;
+};
+
+// Now, let's make Employee inherit from Person:
+riveter.inherits(Person, Employee);
+```
+
+As mentioned above, we can also provide an object literal as the "child" argument:
+```javascript
+var CEOProto = {
+    fireAllThePeeps: function() {
+        return "YOU'RE ALL FIRED!";
+    },
+    constructor: function(name, title, salary, shouldExpectFbiRaid) {
+        CEOProto.constructor.__super.call(this,name, title, salary);
+        this.shouldExpectFbiRaid = shouldExpectFbiRaid;
+        whichCtor.push("CEO");
+    }
+};
+
+// let's use the above object as the prototype of a new constructor function, which inherits from Employee:
+var CEO = riveter.inherits(Employee, CEOProto);
+```
+
+Notice that when we provide a constructor function for the `child` argument, the `inherits` call mutates that constructor function in place, so there's no need to do this:
+
+```javascript
+// Don't need to do this, since Employee is already a constructor function
+var Employee = riveter.inherits(Person, Employee);
+```
+
+However, when we passed an object literal as the `child` argument, then you will want to take advantage of the fact that `inherits` returns the resulting constructor function:
+```javascript
+// only other way to get CEO would be to reference CEOProto.constructor
+// but constructor is an optional property if you pass an object literal...
+var CEO = riveter.inherits(Employee, CEOProto);
+```
 
 ####extend
 …Examples coming…
