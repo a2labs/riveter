@@ -6,7 +6,7 @@ if ( typeof riveter === "undefined" ) {
   var expect  = require("../ext/expect.js" );
 }
 
-describe("riveter - mixin", function(){
+describe("riveter - constructor.mixin", function(){
 
   var mixinA = {
     greet: function() {
@@ -59,6 +59,12 @@ describe("riveter - mixin", function(){
     it('should produce expected mix-in behavior', function(){
       expect(f2.greet()).to.be("Oh, hai Who");
     });
+
+    it('should apply shared/constructor methods', function(){
+      expect(F2.hasOwnProperty("mixin")).to.be(true);
+      expect(F2.hasOwnProperty("extend")).to.be(true);
+      expect(F2.hasOwnProperty("inherits")).to.be(true);
+    });
   });
 
   describe("when calling mixin with two arguments", function(){
@@ -74,6 +80,12 @@ describe("riveter - mixin", function(){
       expect(f2.greet()).to.be("Oh, hai Who");
       expect(f2.sayGoodbye()).to.be("Buh Bye Who");
     });
+
+    it('should apply shared/constructor methods', function(){
+      expect(F2.hasOwnProperty("mixin")).to.be(true);
+      expect(F2.hasOwnProperty("extend")).to.be(true);
+      expect(F2.hasOwnProperty("inherits")).to.be(true);
+    });
   });
 
   describe("when using a mixin containing a postInit method", function() {
@@ -87,6 +99,12 @@ describe("riveter - mixin", function(){
     });
     it('should produce expected mix-in behavior', function(){
       expect(f2.saySomething()).to.be("'Stetsons are cool', said Doctor Who");
+    });
+
+    it('should apply shared/constructor methods', function(){
+      expect(F2.hasOwnProperty("mixin")).to.be(true);
+      expect(F2.hasOwnProperty("extend")).to.be(true);
+      expect(F2.hasOwnProperty("inherits")).to.be(true);
     });
   });
 
@@ -102,6 +120,12 @@ describe("riveter - mixin", function(){
     it('should produce expected mix-in behavior', function(){
       expect(f2.saySomething()).to.be("'Bowties are cool', said Doctor Who");
     });
+
+    it('should apply shared/constructor methods', function(){
+      expect(F2.hasOwnProperty("mixin")).to.be(true);
+      expect(F2.hasOwnProperty("extend")).to.be(true);
+      expect(F2.hasOwnProperty("inherits")).to.be(true);
+    });
   });
 
   describe("when mixins methods collide with prototype methods", function(){
@@ -116,6 +140,12 @@ describe("riveter - mixin", function(){
     it('mix-in should **not** patch prototype', function(){
       expect(f2.greet()).to.be("Hello Who");
     });
+
+    it('should apply shared/constructor methods', function(){
+      expect(F2.hasOwnProperty("mixin")).to.be(true);
+      expect(F2.hasOwnProperty("extend")).to.be(true);
+      expect(F2.hasOwnProperty("inherits")).to.be(true);
+    });
   });
 
   describe("when mixins methods collide with other mixin methods", function() {
@@ -129,6 +159,12 @@ describe("riveter - mixin", function(){
     });
     it('should produce expected mix-in behavior (last mixin wins)', function(){
       expect(f2.saySomething()).to.be("'Bowties are cool', said Doctor Who");
+    });
+
+    it('should apply shared/constructor methods', function(){
+      expect(F2.hasOwnProperty("mixin")).to.be(true);
+      expect(F2.hasOwnProperty("extend")).to.be(true);
+      expect(F2.hasOwnProperty("inherits")).to.be(true);
     });
   });
 

@@ -8,7 +8,7 @@ if ( typeof riveter === "undefined" ) {
 
 console.log(riveter);
 
-describe("riveter - extend", function(){
+describe("riveter - constructor.extend", function(){
 
   var Person = function(name) {
     this.name = name;
@@ -65,6 +65,7 @@ describe("riveter - extend", function(){
     it('should apply shared/constructor methods', function(){
       expect(Employee.hasOwnProperty("mixin")).to.be(true);
       expect(Employee.hasOwnProperty("extend")).to.be(true);
+      expect(Employee.hasOwnProperty("inherits")).to.be(true);
       expect(Employee.hasOwnProperty("getInstance")).to.be(true);
       expect(Employee.getInstance("Test", "Tester", 100) instanceof Employee).to.be(true);
     });
@@ -99,6 +100,7 @@ describe("riveter - extend", function(){
     it('should apply shared/constructor methods', function(){
       expect(CEO.hasOwnProperty("mixin")).to.be(true);
       expect(CEO.hasOwnProperty("extend")).to.be(true);
+      expect(CEO.hasOwnProperty("inherits")).to.be(true);
       expect(CEO.hasOwnProperty("getInstance")).to.be(true);
       expect(CEO.getInstance("Test", "Tester", 100) instanceof Employee).to.be(true);
     });

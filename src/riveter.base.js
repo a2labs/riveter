@@ -7,9 +7,14 @@ riveter.ensureHelpers = function(fn) {
   if(!fn.hasOwnProperty('mixin')) {
     fn.mixin = riveter.mixin;
   }
+  if(!fn.hasOwnProperty('inherits')) {
+    fn.inherits = function(parent, ctorProps) {
+      riveter.inherits(fn, parent, ctorProps);
+    }
+  }
 };
 
-riveter.inherits = function(parent, child, ctorProps) {
+riveter.inherits = function(child, parent, ctorProps) {
   var childProto;
   var TmpCtor = function() {};
   var Child = function() { parent.apply(this, arguments); };
@@ -33,8 +38,12 @@ riveter.inherits = function(parent, child, ctorProps) {
   return Child;
 };
 
+riveter.inheritFrom = function(parent, ctorProps) {
+  return riveter.inherits(this, parent, ctorProps);
+};
+
 riveter.extend = function (props, ctorProps) {
-  return riveter.inherits(this, props, ctorProps);
+  return riveter.inherits(props, this, ctorProps);
 };
 
 riveter.mixin = function() {
