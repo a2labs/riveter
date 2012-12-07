@@ -194,7 +194,8 @@ var CEO = Employee.extend({
     fireAllThePeeps: function() {
         return "YOU'RE ALL FIRED!";
     }
-});​```
+});​
+```
 
 Note in the above examples we've taken a cue from Backbone.js in providing a no-op `initialize` call in the `Person` prototype, and we call it at the end of the `Person` constructor.  That way, if any inheriting constructor provides an implementation of `initialize`, it will call that instead.
 

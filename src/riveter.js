@@ -1,7 +1,10 @@
 (function ( root, factory ) {
   if ( typeof module === "object" && module.exports ) {
     // Node, or CommonJS-Like environments
-    module.exports = factory( require( "underscore" ) );
+    module.exports = function(_) {
+      _ = _ || require( "underscore" );
+      return factory( _ );
+    }
   } else if ( typeof define === "function" && define.amd ) {
     // AMD. Register as an anonymous module.
     define( ["underscore"], function ( _ ) {
