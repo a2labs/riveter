@@ -5,16 +5,16 @@
 
 riveter is an experimental JavaScript micro-library that provides the following helper methods:
 
-* `riveter.mixin` - use this to mix objects which provide additional behavior into your constructor function.  The mix-ins may optional provide initialization methods that can be called before or after the original constructor function executes. (Must be attached to a constructor function to operate.)
+* `riveter.mixin` - use this to mix objects which provide additional behavior into your constructor function.  The mix-ins may optionally provide initialization methods that can be called before or after the original constructor function executes. (Must be attached to a constructor function to operate.)
 * `riveter.inherits` - an inheritance helper allowing a constructor function to inherit the prototype of another, allowing the ability to override the parent's constructor and also to provide 'shared' methods to the constructor function itself, etc. (Can be used stand-alone via `riveter.inherits` or it can be attached to a constructor function.)
-* `riveter.extend` - helper method which can be attached to a constructor function. It wraps the `inherits` call, providing the constructor to which it is attached as the first argument (the parent). (Must be attached to a constructor function to operate.)
+* `riveter.extend` - helper method which can be attached to a constructor function. It wraps the `inherits` call, providing the constructor to which it is attached as the `parent` argument. (Must be attached to a constructor function to operate.)
 * `riveter.ensureHelpers` - Adds the `mixin`, `extend` and `inherits` calls to a constructor function if they are not already present.
 
 ### Why would I use it?
 
 The boilerplate/ceremonial code around managing mix-ins and inheritance in JavaScript can be a significant portion of a code base. We want to remove the unnecessary boilerplate while providing a consistent, reliable way to extend constructors through a powerful & concise means.
 
-riveter is heavily informed by appendTo projects using [Backbone.js](http://backbonejs.org/).  We've often wanted the backbone-style extend functionality, but with some slight tweaks, while maitaining compatibility with backbone objects.  riveter is our attempt to standardize that approach - so you can use it with or without backbone
+riveter is heavily informed by appendTo projects using [Backbone.js](http://backbonejs.org/).  We've often wanted the backbone-style extend functionality, but with some slight tweaks, while maitaining compatibility with backbone objects.  riveter is our attempt to standardize that approach. riveter is **not** dependent on backbone, it just plays well with it.  Speaking of dependencies, riveter does take one dependency: [underscore.js](http://underscorejs.org/).
 
 ### How do I use it?
 ####mixin
@@ -93,7 +93,7 @@ In the above example, our mixin is now structured slightly differently.  The act
 ####inherits
 There are two ways to use `inherits`: the stand-alone version (`riveter.inherits`) and when it's attached to a constructor function.
 
-#####riveter.inherits
+#####riveter.inherits (stand alone version)
 `riveter.inherits(child, parent [, ctorProps]);`
 
 The `inherits` method allows you to specify a `parent` contructor function from which a `child` constructor function can inherit.  Optionally, the `child` can be an object literal (which is then used at the prototype of a new instance).  You can optionally provide the `ctorProps` argument, which applies 'shared' methods to the constructor function itself. Really, `inherits` is quite similar to many existing implementations which provide helper utilities around prototypical inheritance.  It's worth noting that when `child` inherits from `parent`, it's prototype will be a new instance of `parent`.  Some examples:
@@ -183,6 +183,7 @@ Employee.inherits( Person );
 ```
 
 ####extend
+`constructor.extend(childPrototypeProps [, ctorProps] );`
 It's very common for JavaScript developers to have an existing constructor function they'd like to use as a 'base' constructor, from which other constructors could inherit. The `extend` call can make this possible. It gets attached to an existing constructor function, and simply wraps a call to `inherits`, passing the constructor to which it's attached as the `parent` argument.  This pattern will feel familiar to developers that have used similar approaches in libraries like [Prototype.js](http://prototypejs.org/), [Closure](https://developers.google.com/closure/) and [Backbone.js](http://backbonejs.org/). For example:
 
 ```javascript
@@ -201,7 +202,7 @@ _.extend(Person.prototype, {
 });
 
 // Here we attach the extend call to the constructor
-// Using extend will result in riveter ensuring both
+// Using extend will result in riveter ensuring inherits,
 // extend and mixin exist on the constructor from then on
 Person.extend = riveter.extend;
 
