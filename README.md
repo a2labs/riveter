@@ -19,26 +19,26 @@ riveter is heavily informed by appendTo projects using [Backbone.js](http://back
 ### How do I use it?
 ####mixin
 
-`.constructorFn.mixin(mixin1 [, mixin2, mixin3, etc.]);`
+`.constructorFn.mixin( mixin1 [, mixin2, mixin3, etc.] );`
 
 The `mixin` call can be used to mix blocks of behavior into a constructor function (of course, it must be attached to that constructor function first). `mixin` returns a new constructor function, with the mixin members on the resulting 'parent' prototype, but still-overridable by prototype or instance members applied from that point on. For example, let's say you had a pub/sub mixin, which you wanted to use across multiple constructor functions, to ensure that objects produced by those constructors had a `publish` and `subscribe` call. Of course, you could add those calls to the individual prototypes of your various constructor functions, or you could have a common 'base' prototype from which each inherit. Or you could do this:
 
 ```javascript
-var Person = function(name) {
+var Person = function( name ) {
     this.name = name;
 };
 Person.prototype.greet = function() {
     return "Hi, " + this.name;
 };
 
-var Order = function(id) {
+var Order = function( id ) {
     this.id = id;
 };
-Order.prototype.addItem = function(item) {
+Order.prototype.addItem = function( item ) {
     // some behavior….
 };
 
-var Product = function(sku) {
+var Product = function( sku ) {
     this.sku = sku;
 };
 
@@ -46,24 +46,24 @@ Product.mixin = Person.mixin = Order.mixin = riveter.mixin;
 
 var pubSub = {
     publish: mediator.publish,
-    subscribe: function(topic, callback) {
-        if(!this._subscriptions) {
+    subscribe: function( topic, callback ) {
+        if( !this._subscriptions ) {
             this._subscriptions = {};
         }
-        this._subscriptions[topic] = mediator.subscribe(topic, callback); 
+        this._subscriptions[ topic ] = mediator.subscribe( topic, callback ); 
     },
     removeSubscriptions: function() {
-        if(this._subscriptions) {
-            _.each(this._subscriptions, function(sub){
+        if( this._subscriptions ) {
+            _.each( this._subscriptions, function( sub ){
                 sub.unsubscribe();
             });
         }
     }
 };
 
-Person.mixin(pubSub);
-Order.mixin(pubSub);
-Product.mixin(pubSub);
+Person.mixin( pubSub );
+Order.mixin( pubSub );
+Product.mixin( pubSub );
 
 ```
 
@@ -76,11 +76,11 @@ var pubSub = {
     },
     mixin: {
         publish: mediator.publish,
-        subscribe: function(topic, callback) {
-            this._subscriptions[topic] = mediator.subscribe(topic, callback); 
+        subscribe: function( topic, callback ) {
+            this._subscriptions[ topic ] = mediator.subscribe( topic, callback ); 
         },
         removeSubscriptions: function() {
-            _.each(this._subscriptions, function(sub){
+            _.each( this._subscriptions, function( sub ){
                 sub.unsubscribe();
             });
         }
@@ -94,30 +94,30 @@ In the above example, our mixin is now structured slightly differently.  The act
 There are two ways to use `inherits`: the stand-alone version (`riveter.inherits`) and when it's attached to a constructor function.
 
 #####riveter.inherits
-`riveter.inherits(parent, child [, ctorProps]);`
+`riveter.inherits(child, parent [, ctorProps]);`
 
 The `inherits` method allows you to specify a `parent` contructor function from which a `child` constructor function can inherit.  Optionally, the `child` can be an object literal (which is then used at the prototype of a new instance).  You can optionally provide the `ctorProps` argument, which applies 'shared' methods to the constructor function itself. Really, `inherits` is quite similar to many existing implementations which provide helper utilities around prototypical inheritance.  It's worth noting that when `child` inherits from `parent`, it's prototype will be a new instance of `parent`.  Some examples:
 
 ```javascript
-var Person = function(name) {
+var Person = function( name ) {
     this.name = name;
 };
 Person.prototype.greet = function() {
     return "Hi, " + this.name;
 };
 
-var Employee = function(name, title, salary) {
-    Employee.__super.call(this,name);
+var Employee = function( name, title, salary ) {
+    Employee.__super.call( this, name );
     this.title = title;
     this.salary = salary;
 };
 
-Employee.prototype.giveRaise = function(amount) {
+Employee.prototype.giveRaise = function( amount ) {
     this.salary += amount;
 };
 
 // Now, let's make Employee inherit from Person:
-riveter.inherits(Person, Employee);
+riveter.inherits( Employee, Person );
 ```
 
 As mentioned above, we can also provide an object literal as the "child" argument:
@@ -127,21 +127,21 @@ var CEOProto = {
     fireAllThePeeps: function() {
         return "YOU'RE ALL FIRED!";
     },
-    constructor: function(name, title, salary, shouldExpectFbiRaid) {
-        CEOProto.constructor.__super.call(this,name, title, salary);
+    constructor: function( name, title, salary, shouldExpectFbiRaid ) {
+        CEOProto.constructor.__super.call( this,name, title, salary );
         this.shouldExpectFbiRaid = shouldExpectFbiRaid;
     }
 };
 
 // let's use the above object as the prototype of a new constructor function, which inherits from Employee:
-var CEO = riveter.inherits(Employee, CEOProto);
+var CEO = riveter.inherits( CEOProto, Employee );
 ```
 
 Notice that when we provide a constructor function for the `child` argument, the `inherits` call mutates that constructor function in place, so there's no need to do this:
 
 ```javascript
 // Don't need to do this, since Employee is already a constructor function
-var Employee = riveter.inherits(Person, Employee);
+var Employee = riveter.inherits( Employee, Person );
 ```
 
 However, when we passed an object literal as the `child` argument, then you will want to take advantage of the fact that `inherits` returns the resulting constructor function:
@@ -149,46 +149,46 @@ However, when we passed an object literal as the `child` argument, then you will
 ```javascript
 // only other way to get CEO would be to reference CEOProto.constructor
 // but constructor is an optional property if you pass an object literal...
-var CEO = riveter.inherits(Employee, CEOProto);
+var CEO = riveter.inherits( CEOProto, Employee );
 ```
 The examples above also demonstrate that riveter puts a `__super` function member on the resulting child constructor function, which is simply the constructor of the parent.  In addition, a ``__super__`` member is added as well (to match what Backbone.js provides) - which is a reference to the parent's prototype.  We don't recommend over(ab)using calls to a `__super` constructor in your child instances, but given that this is still a fairly common approach with many JavaScript developers, we wanted to demonstrate that it's possible to do so if necessary.
 
 #####constructor.inherits
-`constructor.inherits(parent [, ctorProps]);`
+`constructor.inherits( parent [, ctorProps] );`
 When `inherits` is attached to a constructor function, it's functionality is **identical** to `riveter.inherits`, except that the constructor function it is attached to is the `child` argument, so all you have to do is provide a `parent` argument and, optionally, any shared/constructor methods.  The `inherits` method can be attached by passing your constructor function to `riveter.ensureHelpers` (it's attached automatically to any constructor that uses `extend` or `mixin`).
 
 ```javascript
-var Person = function(name) {
+var Person = function( name ) {
     this.name = name;
 };
 Person.prototype.greet = function() {
     return "Hi, " + this.name;
 };
 
-var Employee = function(name, title, salary) {
-    Employee.__super.call(this,name);
+var Employee = function( name, title, salary ) {
+    Employee.__super.call( this, name );
     this.title = title;
     this.salary = salary;
 };
 
-Employee.prototype.giveRaise = function(amount) {
+Employee.prototype.giveRaise = function( amount ) {
     this.salary += amount;
 };
 // ensureHelpers adds inherits, extend and mixin
 // if they do not already exist on the constructor
-riveter.ensureHelpers(Employee);
+riveter.ensureHelpers( Employee );
 
 // Now, let's make Employee inherit from Person:
-Employee.inherits(Person);
+Employee.inherits( Person );
 ```
 
 ####extend
 It's very common for JavaScript developers to have an existing constructor function they'd like to use as a 'base' constructor, from which other constructors could inherit. The `extend` call can make this possible. It gets attached to an existing constructor function, and simply wraps a call to `inherits`, passing the constructor to which it's attached as the `parent` argument.  This pattern will feel familiar to developers that have used similar approaches in libraries like [Prototype.js](http://prototypejs.org/), [Closure](https://developers.google.com/closure/) and [Backbone.js](http://backbonejs.org/). For example:
 
 ```javascript
-var Person = function(name) {
+var Person = function( name ) {
     this.name = name;
-    this.initialize.apply(this, arguments);
+    this.initialize.apply( this, arguments );
 };
 
 _.extend(Person.prototype, {
@@ -206,22 +206,22 @@ _.extend(Person.prototype, {
 Person.extend = riveter.extend;
 
 var Employee = Person.extend({
-    giveRaise: function(amount) {
+    giveRaise: function( amount ) {
         this.salary += amount;
     },
-    initialize: function(name, title, salary) {
+    initialize: function( name, title, salary ) {
         this.title = title;
         this.salary = salary;
     }
 }, {
-    getInstance: function(name, title, salary) {
-        return new Employee(name, title, salary);
+    getInstance: function( name, title, salary ) {
+        return new Employee( name, title, salary );
     }
 });
 
 var CEO = Employee.extend({
-    constructor: function(name, title, salary, shouldExpectFbiRaid) {
-        CEO.__super.call(this, name, title, salary);
+    constructor: function( name, title, salary, shouldExpectFbiRaid ) {
+        CEO.__super.call( this, name, title, salary );
         this.shouldExpectFbiRaid = shouldExpectFbiRaid;
     },
     fireAllThePeeps: function() {
