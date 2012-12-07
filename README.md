@@ -117,6 +117,7 @@ riveter.inherits(Person, Employee);
 ```
 
 As mentioned above, we can also provide an object literal as the "child" argument:
+
 ```javascript
 var CEOProto = {
     fireAllThePeeps: function() {
@@ -140,14 +141,63 @@ var Employee = riveter.inherits(Person, Employee);
 ```
 
 However, when we passed an object literal as the `child` argument, then you will want to take advantage of the fact that `inherits` returns the resulting constructor function:
+
 ```javascript
 // only other way to get CEO would be to reference CEOProto.constructor
 // but constructor is an optional property if you pass an object literal...
 var CEO = riveter.inherits(Employee, CEOProto);
 ```
+The examples above also demonstrate that riveter puts a `__super` function member on the resulting child constructor function, which is simply the constructor of the parent.  In addition, a ``__super__`` member is added as well (to match what Backbone.js provides) - which is a reference to the parent's prototype.  We don't recommend over(ab)using calls to a `__super` constructor in your child instances, but given that this is still a fairly common approach with many JavaScript developers, we wanted to demonstrate that it's possible to do so if necessary.
 
 ####extend
-…Examples coming…
+It's very common for JavaScript developers to have an existing constructor function they'd like to use as a 'base' constructor, from which other constructors could inherit. The `extend` call can make this possible. It gets attached to an existing constructor function, and simply wraps a call to `inherits`, passing the constructor to which it's attached as the `parent` argument.  This pattern will feel similar to developers that have used similar approaches in Prototype.js and Backbone.js. For example:
+
+```javascript
+var Person = function(name) {
+    this.name = name;
+    this.initialize.apply(this, arguments);
+};
+
+_.extend(Person.prototype, {
+    greet: function() {
+        return "Hi, " + this.name;
+    },
+    initialize: function() {
+
+    }
+});
+
+// Here we attach the extend call to the constructor
+// Using extend will result in riveter ensuring both
+// extend and mixin exist on the constructor from then on
+Person.extend = riveter.extend;
+
+var Employee = Person.extend({
+    giveRaise: function(amount) {
+        this.salary += amount;
+    },
+    initialize: function(name, title, salary) {
+        this.title = title;
+        this.salary = salary;
+    }
+}, {
+    getInstance: function(name, title, salary) {
+        return new Employee(name, title, salary);
+    }
+});
+
+var CEO = Employee.extend({
+    constructor: function(name, title, salary, shouldExpectFbiRaid) {
+        CEO.__super.call(this, name, title, salary);
+        this.shouldExpectFbiRaid = shouldExpectFbiRaid;
+    },
+    fireAllThePeeps: function() {
+        return "YOU'RE ALL FIRED!";
+    }
+});​```
+
+Note in the above examples we've taken a cue from Backbone.js in providing a no-op `initialize` call in the `Person` prototype, and we call it at the end of the `Person` constructor.  That way, if any inheriting constructor provides an implementation of `initialize`, it will call that instead.
+
 
 ### Caveats
 riveter is currently an 'appendTo Labs' effort. This means that we're excited about it enough to make it a micro-library - and we invite you to try it out with us and give us your feedback.  However, being that it's experimental, we may also decide it's the worst idea since the 8-track cassette player.  As long as it continues to prove promising, it stands the chance of becoming a more 'officially supported' appendTo project. In short - we may pull the plug or change the name at any moment.

@@ -66,6 +66,8 @@ describe("riveter - inherits", function(){
       expect(Employee.__super__).to.be(Person.prototype);
     });
     it('should apply shared/constructor methods', function(){
+      expect(Employee.hasOwnProperty("mixin")).to.be(true);
+      expect(Employee.hasOwnProperty("extend")).to.be(true);
       expect(Employee.hasOwnProperty("getInstance")).to.be(true);
       expect(Employee.getInstance("Test", "Tester", 100) instanceof Employee).to.be(true);
     });
@@ -92,7 +94,7 @@ describe("riveter - inherits", function(){
   describe("when passing object literal (with a constructor) as the child", function() {
     var ceo;
     beforeEach(function(){
-      ceo = new CEO("Brian Whitfield", "CEO", 1000000000, true);
+      ceo = new CEO("Byron Whitefield", "CEO", 1000000000, true);
     });
     afterEach(function(){
       whichCtor = [];
@@ -107,15 +109,19 @@ describe("riveter - inherits", function(){
       expect(CEO.__super).to.be(Employee);
       expect(CEO.__super__).to.be(Employee.prototype);
     });
+    it('should apply shared members', function() {
+      expect(CEO.hasOwnProperty("mixin")).to.be(true);
+      expect(CEO.hasOwnProperty("extend")).to.be(true);
+    });
     it('should call the child constructor', function(){
       expect(whichCtor).to.eql(["Person", "Employee", "CEO"]);
     });
     it('should produce expected instance when used to instantiate new object', function(){
-      expect(ceo.name).to.be("Brian Whitfield");
+      expect(ceo.name).to.be("Byron Whitefield");
       expect(ceo.title).to.be("CEO");
       expect(ceo.salary).to.be(1000000000);
       expect(ceo.shouldExpectFbiRaid).to.be(true);
-      expect(ceo.greet()).to.be("Hi, Brian Whitfield");
+      expect(ceo.greet()).to.be("Hi, Byron Whitefield");
     });
     it('should properly construct the instance prototype', function() {
       expect(ceo.hasOwnProperty("name")).to.be(true);
@@ -146,6 +152,10 @@ describe("riveter - inherits", function(){
     });
     it('should call the parent constructor', function(){
       expect(whichCtor).to.eql(["Person"]);
+    });
+    it('should apply shared members', function() {
+      expect(Visitor.hasOwnProperty("mixin")).to.be(true);
+      expect(Visitor.hasOwnProperty("extend")).to.be(true);
     });
     it('should produce expected instance when used to instantiate new object', function(){
       expect(visitor.name).to.be("FBI+IRS");
