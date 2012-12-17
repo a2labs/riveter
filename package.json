@@ -31,8 +31,8 @@
         "email" : "PleaseJustUseTheIssuesPage@github.com",
         "url" : "http://github.com/a2labs/riveter/issues"
     },
-    "directories" : { "lib" : "lib/node" },
-    "main" : "lib/node/riveter.js",
+    "directories" : { "lib" : "lib" },
+    "main" : "lib/riveter.js",
     "engines" : {
         "node" : ">=0.4.0"
     },
