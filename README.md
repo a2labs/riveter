@@ -1,4 +1,4 @@
-# riveter (v0.1.0)
+# riveter (v0.1.1)
 
 
 ### What is it?
@@ -20,7 +20,7 @@ riveter is heavily informed by appendTo projects using [Backbone.js](http://back
 ### How do I use it?
 ####mixin
 
-`.constructorFn.mixin( mixin1 [, mixin2, mixin3, etc.] );`
+`constructorFn.mixin( mixin1 [, mixin2, mixin3, etc.] );`
 `riveter.mixin( constructorFn, mixin1 [, mixin2, mixin3, etc.] );`
 
 The `mixin` call takes 1-to-n number of object literals, each containing methods you want mixed into the target constructor function's prototype. Methods that already exist on the prototype will **not** be overridden. For example, let's say you had a pub/sub mixin, which you wanted to use across multiple constructor functions, to ensure that those instances had a `publish` and `subscribe` call. Of course, you could add those calls to the individual prototypes of your various constructor functions, or you could have a common 'base' prototype from which each inherit. Or you could do this:
@@ -72,7 +72,7 @@ Product.mixin( pubSub );
 
 ####compose
 
-`.constructorFn.compose( mixin1 [, mixin2, mixin3, etc.] );`
+`constructorFn.compose( mixin1 [, mixin2, mixin3, etc.] );`
 `riveter.compose( constructorFn, mixin1 [, mixin2, mixin3, etc. ] );`
 
 The `compose` call can be used to mix blocks of behavior into a constructor function. `compose` returns a new constructor function, with the mixed-in members on the resulting 'parent' prototype, but still-overridable by prototype or instance members applied from that point on. Continuing from the example above (for `mixin`s) - isn't it kind of ugly that the pubSub mixin's methods have to check to see if the `_subscriptions` member is present? Wouldn't it be nice if we could initialize state for the mixin, much like it we had baked the logic into the actual constructor function?  You can, by using `compose` to bake your mixins into a single level of the prototype chain:
@@ -95,9 +95,9 @@ var pubSub = {
     }
 }
 
-Person.compose( pubSub );
-Order.compose( pubSub );
-Product.compose( pubSub );
+var MsgPerson = Person.compose( pubSub );
+var MsgOrder = Order.compose( pubSub );
+var MsgProduct = Product.compose( pubSub );
 
 ```
 
@@ -197,7 +197,8 @@ Employee.inherits( Person );
 ```
 
 ####extend
-`constructor.extend(childPrototypeProps [, ctorProps] );`
+`constructorFn.extend(childPrototypeProps [, ctorProps] );`
+`riveter.extend(constructorFn, childPrototypeProps [, ctorProps] );`
 It's very common for JavaScript developers to have an existing constructor function they'd like to use as a 'base' constructor, from which other constructors could inherit. The `extend` call can make this possible. It gets attached to an existing constructor function, and simply wraps a call to `inherits`, passing the constructor to which it's attached as the `parent` argument.  This pattern will feel familiar to developers that have used similar approaches in libraries like [Prototype.js](http://prototypejs.org/), [Closure](https://developers.google.com/closure/) and [Backbone.js](http://backbonejs.org/). For example:
 
 ```javascript
