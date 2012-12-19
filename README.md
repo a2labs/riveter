@@ -103,6 +103,8 @@ var MsgProduct = Product.compose( pubSub );
 
 In the above example, our 'composable' mixin is now structured slightly differently.  The actual mixin is on the `mixin` member, and we've provided a `_postInit` method.  `_postInit` will execute just after the constructor function, and is passed any arguments that were passed to the constructor. You can optionally use the `_preInit` method to have your setup execute just before the constructor function executes. Although we haven't found a real use-case **yet**, you can provide both a `_preInit` and a `_postInit` method if you need to get way fancier than we have.
 
+`compose` may feel like a hybrid between `mixin` and `inherits` - that's because it is. Use `mixin` for when you only need to mix behavior from other objects into a target constructor's prototype.  Use `inherits` if you need/want to follow a more classical inheritance approach.  Use `compose` if you're mixing in mixins that have `_preInit` or `postInit` behavior, or to simulate multiple inheritance at one level of the prototype chain.
+
 ####inherits
 There are two ways to use `inherits`: the stand-alone version (`riveter.inherits`) and when it's attached to a constructor function.
 
