@@ -69,6 +69,7 @@ describe("riveter - inherits (stand-alone)", function(){
       expect(Employee.hasOwnProperty("mixin")).to.be(true);
       expect(Employee.hasOwnProperty("extend")).to.be(true);
       expect(Employee.hasOwnProperty("inherits")).to.be(true);
+      expect(Employee.hasOwnProperty("compose")).to.be(true);
       expect(Employee.hasOwnProperty("getInstance")).to.be(true);
       expect(Employee.getInstance("Test", "Tester", 100) instanceof Employee).to.be(true);
     });
@@ -114,6 +115,7 @@ describe("riveter - inherits (stand-alone)", function(){
       expect(CEO.hasOwnProperty("mixin")).to.be(true);
       expect(CEO.hasOwnProperty("extend")).to.be(true);
       expect(CEO.hasOwnProperty("inherits")).to.be(true);
+      expect(CEO.hasOwnProperty("compose")).to.be(true);
     });
     it('should call the child constructor', function(){
       expect(whichCtor).to.eql(["Person", "Employee", "CEO"]);
@@ -159,6 +161,7 @@ describe("riveter - inherits (stand-alone)", function(){
       expect(Visitor.hasOwnProperty("mixin")).to.be(true);
       expect(Visitor.hasOwnProperty("extend")).to.be(true);
       expect(Visitor.hasOwnProperty("inherits")).to.be(true);
+      expect(Visitor.hasOwnProperty("compose")).to.be(true);
     });
     it('should produce expected instance when used to instantiate new object', function(){
       expect(visitor.name).to.be("FBI+IRS");

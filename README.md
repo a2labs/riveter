@@ -5,10 +5,11 @@
 
 riveter is an experimental JavaScript micro-library that provides the following helper methods:
 
-* `riveter.mixin` - use this to mix objects which provide additional behavior into your constructor function.  The mix-ins may optionally provide initialization methods that can be called before or after the original constructor function executes. (Must be attached to a constructor function to operate.)
+* `riveter.mixin` - use this to mix object literals into the target constructor function's prototype. Mixin methods are only copied to the prototype if they do not already exist on the prototype (so it preserves/prefers existing prototype implementations). (Can be used stand-alone via `riveter.mixin` or it can be attached to a constructor function.)
+* `riveter.compose` - like `mixin`, you use this to mix objects which provide additional behavior into your constructor function - however, all of the mixins passed to `compose` are inserted into the target constructor's prototype chain, on the 'parent' prototype.  Composed mix-ins may optionally provide initialization methods that can be called before or after the original constructor function executes. (Can be used stand-alone via `riveter.compose` or it can be attached to a constructor function.)
 * `riveter.inherits` - an inheritance helper allowing a constructor function to inherit the prototype of another, allowing the ability to override the parent's constructor and also to provide 'shared' methods to the constructor function itself, etc. (Can be used stand-alone via `riveter.inherits` or it can be attached to a constructor function.)
 * `riveter.extend` - helper method which can be attached to a constructor function. It wraps the `inherits` call, providing the constructor to which it is attached as the `parent` argument. (Must be attached to a constructor function to operate.)
-* `riveter.ensureHelpers` - Adds the `mixin`, `extend` and `inherits` calls to a constructor function if they are not already present.
+* `riveter.rivet` - Adds the `mixin`, `extend`, `compose` and `inherits` calls to a constructor function if they are not already present. While you can call `riveter.rivet`, a short cut is provided by simply calling `riveter()` and passing 1-to-n constructor functions as arguments, each of which will have the methods applied.
 
 ### Why would I use it?
 
@@ -20,8 +21,9 @@ riveter is heavily informed by appendTo projects using [Backbone.js](http://back
 ####mixin
 
 `.constructorFn.mixin( mixin1 [, mixin2, mixin3, etc.] );`
+`riveter.mixin( constructorFn, mixin1 [, mixin2, mixin3, etc.] );`
 
-The `mixin` call can be used to mix blocks of behavior into a constructor function (of course, it must be attached to that constructor function first). `mixin` returns a new constructor function, with the mixin members on the resulting 'parent' prototype, but still-overridable by prototype or instance members applied from that point on. For example, let's say you had a pub/sub mixin, which you wanted to use across multiple constructor functions, to ensure that objects produced by those constructors had a `publish` and `subscribe` call. Of course, you could add those calls to the individual prototypes of your various constructor functions, or you could have a common 'base' prototype from which each inherit. Or you could do this:
+The `mixin` call takes 1-to-n number of object literals, each containing methods you want mixed into the target constructor function's prototype. Methods that already exist on the prototype will **not** be overridden. For example, let's say you had a pub/sub mixin, which you wanted to use across multiple constructor functions, to ensure that those instances had a `publish` and `subscribe` call. Of course, you could add those calls to the individual prototypes of your various constructor functions, or you could have a common 'base' prototype from which each inherit. Or you could do this:
 
 ```javascript
 var Person = function( name ) {
@@ -42,7 +44,7 @@ var Product = function( sku ) {
     this.sku = sku;
 };
 
-Product.mixin = Person.mixin = Order.mixin = riveter.mixin;
+riveter( Product, Person, Order );
 
 var pubSub = {
     publish: mediator.publish,
@@ -67,7 +69,13 @@ Product.mixin( pubSub );
 
 ```
 
-However - isn't it kind of ugly that the pubSub mixin's methods have to check to see if the `_subscriptions` member is present? Wouldn't it be nice if we could initialize state for the mixin, much like it we had baked the logic into the actual constructor function?  You can, if your mixin looks something like this:
+
+####compose
+
+`.constructorFn.compose( mixin1 [, mixin2, mixin3, etc.] );`
+`riveter.compose( constructorFn, mixin1 [, mixin2, mixin3, etc. ] );`
+
+The `compose` call can be used to mix blocks of behavior into a constructor function. `compose` returns a new constructor function, with the mixed-in members on the resulting 'parent' prototype, but still-overridable by prototype or instance members applied from that point on. Continuing from the example above (for `mixin`s) - isn't it kind of ugly that the pubSub mixin's methods have to check to see if the `_subscriptions` member is present? Wouldn't it be nice if we could initialize state for the mixin, much like it we had baked the logic into the actual constructor function?  You can, by using `compose` to bake your mixins into a single level of the prototype chain:
 
 ```javascript
 var pubSub = {
@@ -86,15 +94,21 @@ var pubSub = {
         }
     }
 }
+
+Person.compose( pubSub );
+Order.compose( pubSub );
+Product.compose( pubSub );
+
 ```
 
-In the above example, our mixin is now structured slightly differently.  The actual mixin is on the `mixin` member, and we've provided a `_postInit` method.  `_postInit` will execute just after the constructor function, and is passed any arguments that were passed to the constructor. You can optionally use the `_preInit` method to have your setup execute just before the constructor function executes. Although we haven't found a real use-case **yet**, you can provide both a `_preInit` and a `_postInit` method if you need to get way fancier than we have.
+In the above example, our 'composable' mixin is now structured slightly differently.  The actual mixin is on the `mixin` member, and we've provided a `_postInit` method.  `_postInit` will execute just after the constructor function, and is passed any arguments that were passed to the constructor. You can optionally use the `_preInit` method to have your setup execute just before the constructor function executes. Although we haven't found a real use-case **yet**, you can provide both a `_preInit` and a `_postInit` method if you need to get way fancier than we have.
 
 ####inherits
 There are two ways to use `inherits`: the stand-alone version (`riveter.inherits`) and when it's attached to a constructor function.
 
 #####riveter.inherits (stand alone version)
-`riveter.inherits(child, parent [, ctorProps]);`
+`constructorFn.inherits(paren [, ctorProps ]);`
+`riveter.inherits(child, parent [, ctorProps ]);`
 
 The `inherits` method allows you to specify a `parent` contructor function from which a `child` constructor function can inherit.  Optionally, the `child` can be an object literal (which is then used at the prototype of a new instance).  You can optionally provide the `ctorProps` argument, which applies 'shared' methods to the constructor function itself. Really, `inherits` is quite similar to many existing implementations which provide helper utilities around prototypical inheritance.  It's worth noting that when `child` inherits from `parent`, it's prototype will be a new instance of `parent`.  Some examples:
 

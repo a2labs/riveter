@@ -1,15 +1,31 @@
-var riveter = {};
+var slice = Array.prototype.slice;
 
-riveter.ensureHelpers = function(fn) {
-  if(!fn.hasOwnProperty('extend')) {
-    fn.extend = riveter.extend;
+var riveter = function(){
+  var args = slice.call(arguments, 0);
+  while(args.length) {
+    riveter.rivet(args.shift());
   }
-  if(!fn.hasOwnProperty('mixin')) {
-    fn.mixin = riveter.mixin;
+};
+
+riveter.rivet = function(fn) {
+  if(!fn.hasOwnProperty('extend')) {
+    fn.extend = function(props, ctorProps) {
+      return riveter.extend(fn, props, ctorProps);
+    };
+  }
+  if(!fn.hasOwnProperty('compose')) {
+    fn.compose = function() {
+      return riveter.compose.apply(this, [fn].concat(slice.call(arguments, 0)));
+    };
   }
   if(!fn.hasOwnProperty('inherits')) {
     fn.inherits = function(parent, ctorProps) {
       riveter.inherits(fn, parent, ctorProps);
+    }
+  }
+  if(!fn.hasOwnProperty('mixin')) {
+    fn.mixin = function() {
+      riveter.mixin.apply(this, ([fn].concat(slice.call(arguments, 0))));
     }
   }
 };
@@ -27,29 +43,26 @@ riveter.inherits = function(child, parent, ctorProps) {
     Child = child;
     childProto = child.prototype;
   }
-  _.extend(Child, parent, ctorProps);
+  riveter.rivet(Child);
+  _.defaults(Child, parent, ctorProps);
   TmpCtor.prototype = parent.prototype;
   Child.prototype = new TmpCtor();
   _.extend(Child.prototype, childProto, { constructor: Child });
   Child.__super = parent;
   // Next line is all about Backbone compatibility
   Child.__super__ = parent.prototype;
-  riveter.ensureHelpers(Child);
   return Child;
 };
 
-riveter.inheritFrom = function(parent, ctorProps) {
-  return riveter.inherits(this, parent, ctorProps);
+riveter.extend = function (ctor, props, ctorProps) {
+  return riveter.inherits(props, ctor, ctorProps);
 };
 
-riveter.extend = function (props, ctorProps) {
-  return riveter.inherits(props, this, ctorProps);
-};
-
-riveter.mixin = function() {
-  var ctor = this;
-  riveter.ensureHelpers(ctor);
-  var mixin = _.reduce(Array.prototype.slice.call(arguments, 0), function(memo, val){
+riveter.compose = function() {
+  var args = slice.call(arguments, 0);
+  var ctor = args.shift();
+  riveter.rivet(ctor);
+  var mixin = _.reduce(args, function(memo, val){
     if(val.hasOwnProperty("_preInit")) {
       memo.preInit.push(val._preInit);
     }
@@ -63,7 +76,7 @@ riveter.mixin = function() {
 
   var res = ctor.extend({
     constructor: function(options) {
-      var args = Array.prototype.slice.call(arguments, 0);
+      var args = slice.call(arguments, 0);
       _.each(mixin.preInit, function(initializer){
         initializer.apply(this, args);
       }, this);
@@ -73,11 +86,14 @@ riveter.mixin = function() {
       }, this);
     }
   });
-
-  riveter.ensureHelpers(res);
-
+  riveter.rivet(res);
   _.defaults(res.prototype, _.extend.apply(null, [{}].concat(mixin.items)));
   return res;
 };
 
-riveter.mixin.extend = riveter.extend;
+riveter.mixin = function() {
+  var args = slice.call(arguments, 0);
+  var ctor = args.shift();
+  riveter.rivet(ctor);
+  _.defaults(ctor.prototype, _.extend.apply(null, [{}].concat(args)));
+};

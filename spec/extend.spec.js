@@ -24,7 +24,7 @@ describe("riveter - constructor.extend", function(){
     }
   });
 
-  Person.extend = riveter.extend;
+  riveter( Person );
 
   var Employee = Person.extend({
     giveRaise: function(amount) {
@@ -66,6 +66,7 @@ describe("riveter - constructor.extend", function(){
       expect(Employee.hasOwnProperty("mixin")).to.be(true);
       expect(Employee.hasOwnProperty("extend")).to.be(true);
       expect(Employee.hasOwnProperty("inherits")).to.be(true);
+      expect(Employee.hasOwnProperty("compose")).to.be(true);
       expect(Employee.hasOwnProperty("getInstance")).to.be(true);
       expect(Employee.getInstance("Test", "Tester", 100) instanceof Employee).to.be(true);
     });
@@ -101,6 +102,7 @@ describe("riveter - constructor.extend", function(){
       expect(CEO.hasOwnProperty("mixin")).to.be(true);
       expect(CEO.hasOwnProperty("extend")).to.be(true);
       expect(CEO.hasOwnProperty("inherits")).to.be(true);
+      expect(CEO.hasOwnProperty("compose")).to.be(true);
       expect(CEO.hasOwnProperty("getInstance")).to.be(true);
       expect(CEO.getInstance("Test", "Tester", 100) instanceof Employee).to.be(true);
     });

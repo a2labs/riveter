@@ -39,10 +39,10 @@ describe("riveter - constructor.inherits", function(){
     return "YOU'RE ALL FIRED!";
   };
 
-  Person.inheritFrom = Employee.inheritFrom = CEO.inheritFrom = riveter.inheritFrom;
+  riveter(Person, Employee, CEO);
 
-  Employee.inheritFrom(Person, { getInstance: function(name, title, salary) { return new Employee(name, title, salary); }});
-  CEO.inheritFrom(Employee);
+  Employee.inherits(Person, { getInstance: function(name, title, salary) { return new Employee(name, title, salary); }});
+  CEO.inherits(Employee);
 
   describe("when inheriting and passing shared members", function(){
     var worker;
@@ -63,6 +63,7 @@ describe("riveter - constructor.inherits", function(){
       expect(Employee.hasOwnProperty("mixin")).to.be(true);
       expect(Employee.hasOwnProperty("extend")).to.be(true);
       expect(Employee.hasOwnProperty("inherits")).to.be(true);
+      expect(Employee.hasOwnProperty("compose")).to.be(true);
       expect(Employee.hasOwnProperty("getInstance")).to.be(true);
       expect(Employee.getInstance("Test", "Tester", 100) instanceof Employee).to.be(true);
     });
@@ -109,6 +110,7 @@ describe("riveter - constructor.inherits", function(){
       expect(CEO.hasOwnProperty("mixin")).to.be(true);
       expect(CEO.hasOwnProperty("extend")).to.be(true);
       expect(CEO.hasOwnProperty("inherits")).to.be(true);
+      expect(CEO.hasOwnProperty("compose")).to.be(true);
     });
     it('should call the child constructor', function(){
       expect(whichCtor).to.eql(["Person", "Employee", "CEO"]);

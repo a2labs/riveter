@@ -1046,7 +1046,7 @@
   };
 
   // Add your own custom functions to the Underscore object.
-  _.mixin = function(obj) {
+  _.compose = function(obj) {
     each(_.functions(obj), function(name){
       var func = _[name] = obj[name];
       _.prototype[name] = function() {
@@ -1161,7 +1161,7 @@
   };
 
   // Add all of the Underscore functions to the wrapper object.
-  _.mixin(_);
+  _.compose(_);
 
   // Add all mutator Array functions to the wrapper.
   each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
