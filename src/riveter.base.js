@@ -9,8 +9,8 @@ var riveter = function(){
 
 riveter.rivet = function(fn) {
   if(!fn.hasOwnProperty('extend')) {
-    fn.extend = function(props, ctorProps) {
-      return riveter.extend(fn, props, ctorProps);
+    fn.extend = function(props, ctorProps, options) {
+      return riveter.extend(fn, props, ctorProps, options);
     };
   }
   if(!fn.hasOwnProperty('compose')) {
@@ -19,18 +19,19 @@ riveter.rivet = function(fn) {
     };
   }
   if(!fn.hasOwnProperty('inherits')) {
-    fn.inherits = function(parent, ctorProps) {
-      riveter.inherits(fn, parent, ctorProps);
+    fn.inherits = function(parent, ctorProps, options) {
+      return riveter.inherits(fn, parent, ctorProps, options);
     }
   }
   if(!fn.hasOwnProperty('mixin')) {
     fn.mixin = function() {
-      riveter.mixin.apply(this, ([fn].concat(slice.call(arguments, 0))));
+      return riveter.mixin.apply(this, ([fn].concat(slice.call(arguments, 0))));
     }
   }
 };
 
-riveter.inherits = function(child, parent, ctorProps) {
+riveter.inherits = function(child, parent, ctorProps, options) {
+  options = options || {};
   var childProto;
   var TmpCtor = function() {};
   var Child = function() { parent.apply(this, arguments); };
@@ -47,15 +48,19 @@ riveter.inherits = function(child, parent, ctorProps) {
   _.defaults(Child, parent, ctorProps);
   TmpCtor.prototype = parent.prototype;
   Child.prototype = new TmpCtor();
-  _.extend(Child.prototype, childProto, { constructor: Child });
+  if(options.deep) {
+    _.deepExtend(Child.prototype, childProto, { constructor: Child });
+  } else {
+    _.extend(Child.prototype, childProto, { constructor: Child });
+  }
   Child.__super = parent;
   // Next line is all about Backbone compatibility
   Child.__super__ = parent.prototype;
   return Child;
 };
 
-riveter.extend = function (ctor, props, ctorProps) {
-  return riveter.inherits(props, ctor, ctorProps);
+riveter.extend = function (ctor, props, ctorProps, options) {
+  return riveter.inherits(props, ctor, ctorProps, options);
 };
 
 riveter.compose = function() {
@@ -96,4 +101,5 @@ riveter.mixin = function() {
   var ctor = args.shift();
   riveter.rivet(ctor);
   _.defaults(ctor.prototype, _.extend.apply(null, [{}].concat(args)));
+  return ctor;
 };

@@ -16,6 +16,7 @@
   }
 }( this, function ( _, global, undefined ) {
 
+  //import("deepExtend.js");
   //import("riveter.base.js");
 
   return riveter;
