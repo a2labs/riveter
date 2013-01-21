@@ -96,10 +96,11 @@ riveter.compose = function() {
   return res;
 };
 
-riveter.mixin = function() {
+riveter.mixin = function(options) {
   var args = slice.call(arguments, 0);
   var ctor = args.shift();
   riveter.rivet(ctor);
-  _.defaults(ctor.prototype, _.extend.apply(null, [{}].concat(args)));
+  _.extend(ctor.prototype, _.extend.apply(null, [{}].concat(args)));
+  //_.defaults(ctor.prototype, _.extend.apply(null, [{}].concat(args)));
   return ctor;
 };

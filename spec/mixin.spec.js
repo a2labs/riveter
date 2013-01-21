@@ -85,8 +85,8 @@ describe("riveter - constructor.mixin", function(){
     F2.mixin(mixinA);
     var f2 = new F2("Who");
 
-    it('mix-in should **not** patch prototype', function(){
-      expect(f2.greet()).to.be("Hello Who");
+    it('mix-in should patch prototype', function(){
+      expect(f2.greet()).to.be("Oh, hai Who");
     });
 
     it('should apply shared/constructor methods', function(){
