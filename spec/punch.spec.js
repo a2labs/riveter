@@ -6,7 +6,7 @@ if ( typeof riveter === "undefined" ) {
   var expect  = require("../ext/expect.js" );
 }
 
-describe("riveter - constructor.mixin", function(){
+describe("riveter - constructor.punch", function(){
 
   var mixinA = {
     greet: function() {
@@ -31,7 +31,7 @@ describe("riveter - constructor.mixin", function(){
       this.name = val;
     };
     riveter(F2);
-    F2.mixin(mixinA);
+    F2.punch(mixinA);
     var f2 = new F2("Who");
 
     it('should apply mixin method to the instance', function(){
@@ -47,6 +47,7 @@ describe("riveter - constructor.mixin", function(){
       expect(F2.hasOwnProperty("extend")).to.be(true);
       expect(F2.hasOwnProperty("inherits")).to.be(true);
       expect(F2.hasOwnProperty("compose")).to.be(true);
+      expect(F2.hasOwnProperty("punch")).to.be(true);
     });
   });
 
@@ -55,7 +56,7 @@ describe("riveter - constructor.mixin", function(){
       this.name = val;
     };
     riveter(F2);
-    F2.mixin(mixinA, mixinC);
+    F2.punch(mixinA, mixinC);
     var f2 = new F2("Who");
 
     it('should apply mixin methods to the instance', function(){
@@ -73,6 +74,7 @@ describe("riveter - constructor.mixin", function(){
       expect(F2.hasOwnProperty("extend")).to.be(true);
       expect(F2.hasOwnProperty("inherits")).to.be(true);
       expect(F2.hasOwnProperty("compose")).to.be(true);
+      expect(F2.hasOwnProperty("punch")).to.be(true);
     });
   });
 
@@ -82,11 +84,11 @@ describe("riveter - constructor.mixin", function(){
     };
     F2.prototype.greet = function() { return "Hello " + this.name; };
     riveter(F2);
-    F2.mixin(mixinA);
+    F2.punch(mixinA);
     var f2 = new F2("Who");
 
-    it('mix-in should **not** patch prototype', function(){
-      expect(f2.greet()).to.be("Hello Who");
+    it('mix-in should override prototype', function(){
+      expect(f2.greet()).to.be("Oh, hai Who");
     });
 
     it('should apply shared/constructor methods', function(){
@@ -94,6 +96,7 @@ describe("riveter - constructor.mixin", function(){
       expect(F2.hasOwnProperty("extend")).to.be(true);
       expect(F2.hasOwnProperty("inherits")).to.be(true);
       expect(F2.hasOwnProperty("compose")).to.be(true);
+      expect(F2.hasOwnProperty("punch")).to.be(true);
     });
   });
 
@@ -102,7 +105,7 @@ describe("riveter - constructor.mixin", function(){
       this.name = val;
     };
     riveter(F2);
-    F2.mixin(mixinB, mixinA);
+    F2.punch(mixinB, mixinA);
     var f2 = new F2("Who");
     it('should apply mixin method to the instance', function(){
       expect(f2).to.have.property("greet");
@@ -116,6 +119,7 @@ describe("riveter - constructor.mixin", function(){
       expect(F2.hasOwnProperty("extend")).to.be(true);
       expect(F2.hasOwnProperty("inherits")).to.be(true);
       expect(F2.hasOwnProperty("compose")).to.be(true);
+      expect(F2.hasOwnProperty("punch")).to.be(true);
     });
   });
 

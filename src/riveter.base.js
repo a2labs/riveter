@@ -28,6 +28,11 @@ riveter.rivet = function(fn) {
       return riveter.mixin.apply(this, ([fn].concat(slice.call(arguments, 0))));
     }
   }
+  if(!fn.hasOwnProperty('punch')) {
+    fn.punch = function() {
+      return riveter.punch.apply(this, ([fn].concat(slice.call(arguments, 0))));
+    }
+  }
 };
 
 riveter.inherits = function(child, parent, ctorProps, options) {
@@ -96,11 +101,18 @@ riveter.compose = function() {
   return res;
 };
 
-riveter.mixin = function(options) {
+riveter.mixin = function() {
+  var args = slice.call(arguments, 0);
+  var ctor = args.shift();
+  riveter.rivet(ctor);
+  _.defaults(ctor.prototype, _.extend.apply(null, [{}].concat(args)));
+  return ctor;
+};
+
+riveter.punch = function() {
   var args = slice.call(arguments, 0);
   var ctor = args.shift();
   riveter.rivet(ctor);
   _.extend(ctor.prototype, _.extend.apply(null, [{}].concat(args)));
-  //_.defaults(ctor.prototype, _.extend.apply(null, [{}].concat(args)));
   return ctor;
 };
