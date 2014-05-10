@@ -54,14 +54,16 @@ riveter.inherits = function ( child, parent, ctorProps, options ) {
 	}
 	riveter.rivet( Child );
 	if ( options.deep ) {
-		_.deepExtend( Child, parent, ctorProps );
+		deepExtend( Child, parent, ctorProps );
 	} else {
 		_.defaults( Child, parent, ctorProps );
 	}
 	TmpCtor.prototype = parent.prototype;
 	Child.prototype = new TmpCtor();
 	if ( options.deep ) {
-		_.deepExtend( Child.prototype, childProto, { constructor : Child } );
+        deepExtend(Child.prototype, childProto, {
+            constructor: Child
+        });
 	} else {
 		_.extend( Child.prototype, childProto, { constructor : Child } );
 	}

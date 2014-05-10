@@ -1,0 +1,14 @@
+{
+  "name": "expect",
+  "homepage": "https://github.com/LearnBoost/expect.js",
+  "version": "0.1.2",
+  "_release": "0.1.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.1.2",
+    "commit": "d38dfc2afaf51bf30140c1a4c3331b5f793b58f1"
+  },
+  "_source": "git://github.com/LearnBoost/expect.js.git",
+  "_target": "0.1.2",
+  "_originalSource": "expect"
+}

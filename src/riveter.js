@@ -1,23 +1,21 @@
-(function ( root, factory ) {
-  if ( typeof module === "object" && module.exports ) {
-    // Node, or CommonJS-Like environments
-    module.exports = function(_) {
-      _ = _ || require( "underscore" );
-      return factory( _ );
+/* global: riveter */
+(function(root, factory) {
+    if (typeof module === "object" && module.exports) {
+        // Node, or CommonJS-Like environments
+        module.exports = factory(require("underscore"));
+    } else if (typeof define === "function" && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(["underscore"], function(_) {
+            return factory(_, root);
+        });
+    } else {
+        // Browser globals
+        root.riveter = factory(root._, root);
     }
-  } else if ( typeof define === "function" && define.amd ) {
-    // AMD. Register as an anonymous module.
-    define( ["underscore"], function ( _ ) {
-      return factory( _, root );
-    } );
-  } else {
-    // Browser globals
-    root.riveter = factory( root._, root );
-  }
-}( this, function ( _, global, undefined ) {
+}(this, function(_, global, undefined) {
 
-  //import("deepExtend.js");
-  //import("riveter.base.js");
+    //import("deepExtend.js");
+    //import("riveter.base.js");
 
-  return riveter;
-} ));
+    return riveter;
+}));
