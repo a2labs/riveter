@@ -1,6 +1,6 @@
 {
     "name": "riveter",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Mix-in, inheritance and constructor extend behavior for your JavaScript enjoyment.",
     "homepage": "https://github.com/a2labs/riveter",
     "keywords": [
