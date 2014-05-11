@@ -1,10 +1,9 @@
 /*global riveter*/
 
 // Support running tests directly via mocha
-if ( typeof riveter === "undefined" ) {
-  var riveter = require("../lib/riveter.js")();
-  var expect  = require("../ext/expect.js" );
-}
+var riveter = typeof window === "undefined" ? require("../lib/riveter.js") : window.riveter;
+var expect = typeof window === "undefined" ? require("expect.js") : window.expect;
+var _ = typeof window === "undefined" ? require("underscore") : window._;
 
 describe("riveter - constructor.compose", function(){
 
