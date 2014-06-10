@@ -1,1 +1,0 @@
-__report = {"summary":{"total":{"sloc":0,"maintainability":0},"average":{"sloc":0,"maintainability":"NaN"}},"reports":[]}
