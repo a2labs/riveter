@@ -1,7 +1,7 @@
 {
     "name": "riveter",
     "description": "Mix-in, inheritance and constructor extend behavior for your JavaScript enjoyment.",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "homepage": "https://github.com/a2labs/riveter",
     "repository": {
         "type": "git",
@@ -16,6 +16,10 @@
         "name": "Nicholas Cloud",
         "email": "WhyNotJustComment@OnMyBlog.com",
         "url": "http://nicholascloud.com"
+    }, {
+        "name": "Doug Neiner",
+        "email": "WhyNotJustComment@OnMyBlog.com",
+        "url": "http://dougneiner.com/"
     }],
     "keywords": [
         "mixin",
@@ -36,24 +40,25 @@
         "node": ">=0.4.0"
     },
     "dependencies": {
-        "underscore": ">=1.4.0"
+        "lodash": "^2.4.1"
     },
     "devDependencies": {
         "bower": "~1.2.8",
-        "gulp-util": "~2.2.9",
+        "expect.js": "~0.2.0",
+        "express": "~3.4.7",
         "gulp": "~3.3.1",
-        "gulp-imports": "~0.0.1",
+        "gulp-beautify": "~1.0.3",
         "gulp-header": "~1.0.2",
         "gulp-hint-not": "~0.0.3",
-        "gulp-uglify": "~0.1.0",
-        "gulp-rename": "~0.2.1",
+        "gulp-imports": "~0.0.1",
         "gulp-plato": "~0.1.0",
-        "gulp-beautify": "~1.0.3",
-        "tiny-lr": "0.0.5",
-        "express": "~3.4.7",
+        "gulp-rename": "~0.2.1",
         "gulp-rimraf": "0.0.8",
+        "gulp-uglify": "~0.1.0",
+        "gulp-util": "~2.2.9",
+        "lodash": "^2.4.1",
         "open": "~0.0.4",
-        "expect.js": "~0.2.0"
+        "tiny-lr": "0.0.5"
     },
     "scripts": {
         "test": "mocha ./spec/*.js",

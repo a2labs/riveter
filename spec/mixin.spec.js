@@ -1,10 +1,9 @@
-/*global riveter*/
+/*global riveter,describe,it*/
 
 // Support running tests directly via mocha
 if (typeof riveter === "undefined") {
     var riveter = typeof window === "undefined" ? require("../lib/riveter.js") : window.riveter;
     var expect = typeof window === "undefined" ? require("expect.js") : window.expect;
-    var _ = typeof window === "undefined" ? require("underscore") : window._;
 }
 
 describe("riveter - constructor.mixin", function() {
@@ -35,15 +34,15 @@ describe("riveter - constructor.mixin", function() {
         F2.mixin(mixinA);
         var f2 = new F2("Who");
 
-        it('should apply mixin method to the instance', function() {
+        it("should apply mixin method to the instance", function() {
             expect(f2).to.have.property("greet");
         });
 
-        it('should produce expected mix-in behavior', function() {
+        it("should produce expected mix-in behavior", function() {
             expect(f2.greet()).to.be("Oh, hai Who");
         });
 
-        it('should apply shared/constructor methods', function() {
+        it("should apply shared/constructor methods", function() {
             expect(F2.hasOwnProperty("mixin")).to.be(true);
             expect(F2.hasOwnProperty("extend")).to.be(true);
             expect(F2.hasOwnProperty("inherits")).to.be(true);
@@ -59,17 +58,17 @@ describe("riveter - constructor.mixin", function() {
         F2.mixin(mixinA, mixinC);
         var f2 = new F2("Who");
 
-        it('should apply mixin methods to the instance', function() {
+        it("should apply mixin methods to the instance", function() {
             expect(f2).to.have.property("greet");
             expect(f2).to.have.property("sayGoodbye");
         });
 
-        it('should produce expected behavior', function() {
+        it("should produce expected behavior", function() {
             expect(f2.greet()).to.be("Oh, hai Who");
             expect(f2.sayGoodbye()).to.be("Buh Bye Who");
         });
 
-        it('should apply shared/constructor methods', function() {
+        it("should apply shared/constructor methods", function() {
             expect(F2.hasOwnProperty("mixin")).to.be(true);
             expect(F2.hasOwnProperty("extend")).to.be(true);
             expect(F2.hasOwnProperty("inherits")).to.be(true);
@@ -88,11 +87,11 @@ describe("riveter - constructor.mixin", function() {
         F2.mixin(mixinA);
         var f2 = new F2("Who");
 
-        it('mix-in should **not** patch prototype', function() {
+        it("mix-in should **not** patch prototype", function() {
             expect(f2.greet()).to.be("Hello Who");
         });
 
-        it('should apply shared/constructor methods', function() {
+        it("should apply shared/constructor methods", function() {
             expect(F2.hasOwnProperty("mixin")).to.be(true);
             expect(F2.hasOwnProperty("extend")).to.be(true);
             expect(F2.hasOwnProperty("inherits")).to.be(true);
@@ -107,14 +106,14 @@ describe("riveter - constructor.mixin", function() {
         riveter(F2);
         F2.mixin(mixinB, mixinA);
         var f2 = new F2("Who");
-        it('should apply mixin method to the instance', function() {
+        it("should apply mixin method to the instance", function() {
             expect(f2).to.have.property("greet");
         });
-        it('should produce expected mix-in behavior (last mixin wins)', function() {
+        it("should produce expected mix-in behavior (last mixin wins)", function() {
             expect(f2.greet()).to.be("Oh, hai Who");
         });
 
-        it('should apply shared/constructor methods', function() {
+        it("should apply shared/constructor methods", function() {
             expect(F2.hasOwnProperty("mixin")).to.be(true);
             expect(F2.hasOwnProperty("extend")).to.be(true);
             expect(F2.hasOwnProperty("inherits")).to.be(true);

@@ -1,10 +1,9 @@
-/*global riveter*/
+/*global riveter,describe,it,beforeEach,afterEach*/
 
 // Support running tests directly via mocha
 if (typeof riveter === "undefined") {
     var riveter = typeof window === "undefined" ? require("../lib/riveter.js") : window.riveter;
     var expect = typeof window === "undefined" ? require("expect.js") : window.expect;
-    var _ = typeof window === "undefined" ? require("underscore") : window._;
 }
 
 describe("riveter - inherits (stand-alone)", function() {
@@ -63,14 +62,14 @@ describe("riveter - inherits (stand-alone)", function() {
         afterEach(function() {
             whichCtor = [];
         });
-        it('should mutate the child constructor function', function() {
+        it("should mutate the child constructor function", function() {
             expect(Employee !== Person).to.be(true);
             expect(Employee.prototype.constructor).to.be(Employee);
             expect(Employee.__super.prototype).to.be(Person.prototype);
             expect(Employee.__super).to.be(Person);
             expect(Employee.__super__).to.be(Person.prototype);
         });
-        it('should apply shared/constructor methods', function() {
+        it("should apply shared/constructor methods", function() {
             expect(Employee.hasOwnProperty("mixin")).to.be(true);
             expect(Employee.hasOwnProperty("extend")).to.be(true);
             expect(Employee.hasOwnProperty("inherits")).to.be(true);
@@ -78,16 +77,16 @@ describe("riveter - inherits (stand-alone)", function() {
             expect(Employee.hasOwnProperty("getInstance")).to.be(true);
             expect(Employee.getInstance("Test", "Tester", 100) instanceof Employee).to.be(true);
         });
-        it('should call the child constructor', function() {
+        it("should call the child constructor", function() {
             expect(whichCtor).to.eql(["Person", "Employee"]);
         });
-        it('should produce expected instance when used to instantiate new object', function() {
+        it("should produce expected instance when used to instantiate new object", function() {
             expect(worker.name).to.be("Bugs");
             expect(worker.title).to.be("Bunny");
             expect(worker.salary).to.be(100000);
             expect(worker.greet()).to.be("Hi, Bugs");
         });
-        it('should properly construct the instance prototype', function() {
+        it("should properly construct the instance prototype", function() {
             expect(worker.hasOwnProperty("name")).to.be(true);
             expect(worker.hasOwnProperty("title")).to.be(true);
             expect(worker.hasOwnProperty("salary")).to.be(true);
@@ -107,7 +106,7 @@ describe("riveter - inherits (stand-alone)", function() {
             whichCtor = [];
         });
 
-        it('should mutate the child constructor function', function() {
+        it("should mutate the child constructor function", function() {
             expect(CEO !== Person).to.be(true);
             expect(CEO !== Employee).to.be(true);
             expect(CEO !== CEOProto).to.be(true);
@@ -116,23 +115,23 @@ describe("riveter - inherits (stand-alone)", function() {
             expect(CEO.__super).to.be(Employee);
             expect(CEO.__super__).to.be(Employee.prototype);
         });
-        it('should apply shared members', function() {
+        it("should apply shared members", function() {
             expect(CEO.hasOwnProperty("mixin")).to.be(true);
             expect(CEO.hasOwnProperty("extend")).to.be(true);
             expect(CEO.hasOwnProperty("inherits")).to.be(true);
             expect(CEO.hasOwnProperty("compose")).to.be(true);
         });
-        it('should call the child constructor', function() {
+        it("should call the child constructor", function() {
             expect(whichCtor).to.eql(["Person", "Employee", "CEO"]);
         });
-        it('should produce expected instance when used to instantiate new object', function() {
+        it("should produce expected instance when used to instantiate new object", function() {
             expect(ceo.name).to.be("Byron Whitefield");
             expect(ceo.title).to.be("CEO");
             expect(ceo.salary).to.be(1000000000);
             expect(ceo.shouldExpectFbiRaid).to.be(true);
             expect(ceo.greet()).to.be("Hi, Byron Whitefield");
         });
-        it('should properly construct the instance prototype', function() {
+        it("should properly construct the instance prototype", function() {
             expect(ceo.hasOwnProperty("name")).to.be(true);
             expect(ceo.hasOwnProperty("title")).to.be(true);
             expect(ceo.hasOwnProperty("salary")).to.be(true);
@@ -153,27 +152,27 @@ describe("riveter - inherits (stand-alone)", function() {
             whichCtor = [];
         });
 
-        it('should mutate the child constructor function', function() {
+        it("should mutate the child constructor function", function() {
             expect(Visitor !== Person).to.be(true);
             expect(Visitor.__super.prototype).to.be(Person.prototype);
             expect(Visitor.__super).to.be(Person);
             expect(Visitor.__super__).to.be(Person.prototype);
         });
-        it('should call the parent constructor', function() {
+        it("should call the parent constructor", function() {
             expect(whichCtor).to.eql(["Person"]);
         });
-        it('should apply shared members', function() {
+        it("should apply shared members", function() {
             expect(Visitor.hasOwnProperty("mixin")).to.be(true);
             expect(Visitor.hasOwnProperty("extend")).to.be(true);
             expect(Visitor.hasOwnProperty("inherits")).to.be(true);
             expect(Visitor.hasOwnProperty("compose")).to.be(true);
         });
-        it('should produce expected instance when used to instantiate new object', function() {
+        it("should produce expected instance when used to instantiate new object", function() {
             expect(visitor.name).to.be("FBI+IRS");
             expect(visitor.greet()).to.be("Hi, FBI+IRS");
             expect(visitor.sayGoodbye()).to.be("Buh Bye....");
         });
-        it('should properly construct the instance prototype', function() {
+        it("should properly construct the instance prototype", function() {
             expect(visitor.hasOwnProperty("name")).to.be(true);
             expect(visitor.hasOwnProperty("greet")).to.be(false);
             expect(visitor.hasOwnProperty("sayGoodbye")).to.be(false);

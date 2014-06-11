@@ -1,8 +1,8 @@
 {
-  "name": "riveter",
-  "version": "0.1.1",
-  "main": ["lib/riveter.min.js", "lib/riveter.js"],
-  "dependencies": {
-    "underscore": "~1.4.0"
-  }
+    "name": "riveter",
+    "version": "0.2.0",
+    "main": ["lib/riveter.min.js", "lib/riveter.js"],
+    "dependencies": {
+        "lodash": "~2.4.1"
+    }
 }

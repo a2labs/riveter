@@ -1,10 +1,9 @@
-/* */
+/*global riveter,describe,it,beforeEach*/
 
 // Support running tests directly via mocha
 if (typeof riveter === "undefined") {
     var riveter = typeof window === "undefined" ? require("../lib/riveter.js") : window.riveter;
     var expect = typeof window === "undefined" ? require("expect.js") : window.expect;
-    var _ = typeof window === "undefined" ? require("underscore") : window._;
 }
 
 console.log(riveter);
@@ -56,14 +55,14 @@ describe("riveter - constructor.extend", function() {
         beforeEach(function() {
             worker = new Employee("Bugs", "Bunny", 100000);
         });
-        it('should produce a new constructor function', function() {
+        it("should produce a new constructor function", function() {
             expect(Employee !== Person).to.be(true);
             expect(Employee.prototype.constructor).to.be(Employee);
             expect(Employee.__super.prototype).to.be(Person.prototype);
             expect(Employee.__super).to.be(Person);
             expect(Employee.__super__).to.be(Person.prototype);
         });
-        it('should apply shared/constructor methods', function() {
+        it("should apply shared/constructor methods", function() {
             expect(Employee.hasOwnProperty("mixin")).to.be(true);
             expect(Employee.hasOwnProperty("extend")).to.be(true);
             expect(Employee.hasOwnProperty("inherits")).to.be(true);
@@ -71,13 +70,13 @@ describe("riveter - constructor.extend", function() {
             expect(Employee.hasOwnProperty("getInstance")).to.be(true);
             expect(Employee.getInstance("Test", "Tester", 100) instanceof Employee).to.be(true);
         });
-        it('should produce expected instance when used to instantiate new object', function() {
+        it("should produce expected instance when used to instantiate new object", function() {
             expect(worker.name).to.be("Bugs");
             expect(worker.title).to.be("Bunny");
             expect(worker.salary).to.be(100000);
             expect(worker.greet()).to.be("Hi, Bugs");
         });
-        it('should properly construct the instance prototype', function() {
+        it("should properly construct the instance prototype", function() {
             expect(worker.hasOwnProperty("name")).to.be(true);
             expect(worker.hasOwnProperty("title")).to.be(true);
             expect(worker.hasOwnProperty("salary")).to.be(true);
@@ -93,13 +92,13 @@ describe("riveter - constructor.extend", function() {
         beforeEach(function() {
             ceo = new CEO("Byron Whitefield", "CEO", 1000000000, true);
         });
-        it('should produce a new constructor function', function() {
+        it("should produce a new constructor function", function() {
             expect(CEO !== Employee).to.be(true);
             expect(CEO.__super.prototype).to.be(Employee.prototype);
             expect(CEO.__super).to.be(Employee);
             expect(CEO.__super__).to.be(Employee.prototype);
         });
-        it('should apply shared/constructor methods', function() {
+        it("should apply shared/constructor methods", function() {
             expect(CEO.hasOwnProperty("mixin")).to.be(true);
             expect(CEO.hasOwnProperty("extend")).to.be(true);
             expect(CEO.hasOwnProperty("inherits")).to.be(true);
@@ -107,14 +106,14 @@ describe("riveter - constructor.extend", function() {
             expect(CEO.hasOwnProperty("getInstance")).to.be(true);
             expect(CEO.getInstance("Test", "Tester", 100) instanceof Employee).to.be(true);
         });
-        it('should produce expected instance when used to instantiate new object', function() {
+        it("should produce expected instance when used to instantiate new object", function() {
             expect(ceo.name).to.be("Byron Whitefield");
             expect(ceo.title).to.be("CEO");
             expect(ceo.salary).to.be(1000000000);
             expect(ceo.shouldExpectFbiRaid).to.be(true);
             expect(ceo.greet()).to.be("Hi, Byron Whitefield");
         });
-        it('should properly construct the instance prototype', function() {
+        it("should properly construct the instance prototype", function() {
             expect(ceo.hasOwnProperty("name")).to.be(true);
             expect(ceo.hasOwnProperty("title")).to.be(true);
             expect(ceo.hasOwnProperty("salary")).to.be(true);
