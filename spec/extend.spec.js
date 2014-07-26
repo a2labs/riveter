@@ -1,9 +1,10 @@
-/*global riveter,describe,it,beforeEach*/
+/*global describe,it,beforeEach*/
 
 // Support running tests directly via mocha
-if (typeof riveter === "undefined") {
-    var riveter = typeof window === "undefined" ? require("../lib/riveter.js") : window.riveter;
+if (typeof riveter === "undefined") { 
+    var riveter = typeof window === "undefined" ? require("../lib/riveter.js") : window.riveter; //jshint ignore:line
     var expect = typeof window === "undefined" ? require("expect.js") : window.expect;
+    var _ = typeof window === "undefined" ? require("lodash") : window._;
 }
 
 console.log(riveter);

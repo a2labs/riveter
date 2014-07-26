@@ -76,15 +76,14 @@
 	"jquery"      : false,  //defines globals exposed by the jQuery JavaScript library
 	"mootools"    : false,  //defines globals exposed by the MooTools JavaScript framework
 	"node"        : true,   //defines globals available when your code is running inside of the Node runtime environment
-	"nonstandard" : true,   //defines non-standard but widely adopted globals such as `escape` and `unescape`
+	"nonstandard" : false,   //defines non-standard but widely adopted globals such as `escape` and `unescape`
 	"prototypejs" : false,  //defines globals exposed by the Prototype JavaScript framework
 	"rhino"       : false,  //defines globals available when your code is running inside of the Rhino runtime environment
-	"worker"      : true,   //defines globals available when your code is running inside of a Web Worker
+	"worker"      : false,   //defines globals available when your code is running inside of a Web Worker
 	"wsh"         : false,  //defines globals available when your code is running as a script for the Windows Script Host
 	"yui"         : false,  //defines globals exposed by the YUI JavaScript framework
 
 	"predef" : [  // Custom globals.
-		"_",
 		"define"
 	],
 
