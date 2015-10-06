@@ -4,6 +4,7 @@
 if (typeof riveter === "undefined") {
     var riveter = typeof window === "undefined" ? require("../lib/riveter.js") : window.riveter;
     var expect = typeof window === "undefined" ? require("expect.js") : window.expect;
+    var _ = typeof window === "undefined" ? require("lodash") : window._;
 }
 
 console.log(riveter);

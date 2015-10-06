@@ -2,16 +2,16 @@
     "name": "riveter",
     "description": "Mix-in, inheritance and constructor extend behavior for your JavaScript enjoyment.",
     "version": "0.2.0",
-    "homepage": "https://github.com/a2labs/riveter",
+    "homepage": "https://github.com/postaljs/riveter",
     "repository": {
         "type": "git",
-        "url": "git://github.com/a2labs/riveter.git"
+        "url": "git://github.com/postaljs/riveter.git"
     },
     "author": "appendTo, LLC (http://appendTo.com)",
     "contributors": [{
         "name": "Jim Cowart",
         "email": "WhyNotJustComment@OnMyBlog.com",
-        "url": "http://freshbrewedcode.com/jimcowart"
+        "url": "http://ifandelse.com"
     }, {
         "name": "Nicholas Cloud",
         "email": "WhyNotJustComment@OnMyBlog.com",
@@ -30,7 +30,7 @@
     ],
     "bugs": {
         "email": "PleaseJustUseTheIssuesPage@github.com",
-        "url": "http://github.com/a2labs/riveter/issues"
+        "url": "http://github.com/postaljs/riveter/issues"
     },
     "directories": {
         "lib": "lib"
