@@ -7,3 +7,5 @@ desktop.ini
 *npm-debug*
 bower/*
 report/*
+coverage
+.nyc_output

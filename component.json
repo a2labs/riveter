@@ -3,6 +3,6 @@
     "version": "0.2.0",
     "main": ["lib/riveter.min.js", "lib/riveter.js"],
     "dependencies": {
-        "lodash": "~2.4.1"
+        "lodash": "~4.17.15"
     }
 }

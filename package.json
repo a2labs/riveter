@@ -1,13 +1,13 @@
 {
-    "name": "riveter",
+    "name": "node-riveter",
     "description": "Mix-in, inheritance and constructor extend behavior for your JavaScript enjoyment.",
-    "version": "0.2.0",
-    "homepage": "https://github.com/a2labs/riveter",
+    "version": "0.2.1",
+    "homepage": "https://github.com/zlintz/riveter",
     "repository": {
         "type": "git",
-        "url": "git://github.com/a2labs/riveter.git"
+        "url": "git://github.com/zlintz/riveter.git"
     },
-    "author": "appendTo, LLC (http://appendTo.com)",
+    "author": "Zach Lintz, original implemenation thanks to appendTo, LLC (http://appendTo.com)",
     "contributors": [
         {
             "name": "Jim Cowart",
@@ -34,7 +34,7 @@
     ],
     "bugs": {
         "email": "PleaseJustUseTheIssuesPage@github.com",
-        "url": "http://github.com/a2labs/riveter/issues"
+        "url": "http://github.com/zlintz/riveter/issues"
     },
     "directories": {
         "lib": "lib"
@@ -48,6 +48,7 @@
     },
     "devDependencies": {
         "bower": "~1.2.8",
+        "coveralls": "^3.0.7",
         "expect.js": "~0.2.0",
         "express": "~3.4.7",
         "gulp": "~3.3.1",
@@ -61,11 +62,13 @@
         "gulp-uglify": "~0.1.0",
         "gulp-util": "~2.2.9",
         "mocha": "^6.2.2",
+        "nyc": "^14.1.1",
         "open": "~0.0.4",
         "tiny-lr": "0.0.5"
     },
     "scripts": {
-        "test": "mocha ./spec/*.js",
+        "coverage": "nyc --exclude=**/*.spec.js --reporter=lcov npm run test ",
+        "test": "npm run build && mocha ./spec/*.js",
         "build": "gulp",
         "start": "gulp server"
     },
