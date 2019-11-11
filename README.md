@@ -19,7 +19,7 @@ The boilerplate/ceremonial code around managing mix-ins and inheritance in JavaS
 riveter is heavily informed by appendTo projects using [Backbone.js](http://backbonejs.org/). We've often wanted the backbone-style extend functionality, but with some slight tweaks, while maintaining compatibility with backbone objects. `riveter` is our attempt to standardize that approach. riveter is **not** dependent on backbone, it just plays well with it.  Speaking of dependencies, riveter does take one dependency: [lodash.js](http://lodash.com/).
 
 ### How do I use it?
-####mixin
+#### mixin
 
 `constructorFn.mixin( mixin1 [, mixin2, mixin3, etc.] );`
 
@@ -69,7 +69,7 @@ The `mixin` call takes 1-to-n number of object literals, each containing methods
     Product.mixin( pubSub );
 
 
-####compose
+#### compose
 
 `constructorFn.compose( mixin1 [, mixin2, mixin3, etc.] );`
 `riveter.compose( constructorFn, mixin1 [, mixin2, mixin3, etc. ] );`
@@ -103,10 +103,10 @@ In the above example, our 'composable' mixin is now structured slightly differen
 
 `compose` may feel like a hybrid between `mixin` and `inherits` - that's because it is. Use `mixin` for when you only need to mix behavior from other objects into a target constructor's prototype.  Use `inherits` if you need/want to follow a more classical inheritance approach.  Use `compose` if you're mixing in mixins that have `_preInit` or `postInit` behavior, or to simulate multiple inheritance at one level of the prototype chain.
 
-####inherits
+#### inherits
 There are two ways to use `inherits`: the stand-alone version (`riveter.inherits`) and when it's attached to a constructor function.
 
-#####riveter.inherits (stand alone version)
+##### riveter.inherits (stand alone version)
 `riveter.inherits(child, parent [, ctorProps ]);`
 
 The `inherits` method allows you to specify a `parent` contructor function from which a `child` constructor function can inherit.  Optionally, the `child` can be an object literal (which is then used at the prototype of a new instance).  You can optionally provide the `ctorProps` argument, which applies 'shared' methods to the constructor function itself. Really, `inherits` is quite similar to many existing implementations which provide helper utilities around prototypical inheritance.  It's worth noting that when `child` inherits from `parent`, it's prototype will be a new instance of `parent`.  Some examples:
@@ -159,7 +159,7 @@ However, when we passed an object literal as the `child` argument, then you will
 
 The examples above also demonstrate that riveter puts a `__super` function member on the resulting child constructor function, which is simply the constructor of the parent.  In addition, a ``__super__`` member is added as well (to match what Backbone.js provides) - which is a reference to the parent's prototype.  We don't recommend over-(ab)using calls to a `__super` constructor in your child instances, but given that this is still a fairly common approach with many JavaScript developers, we wanted to demonstrate that it's possible to do so if necessary.
 
-#####constructor.inherits
+##### constructor.inherits
 `constructorFn.inherits(parent [, ctorProps ]);`
 When `inherits` is attached to a constructor function, it's functionality is **identical** to `riveter.inherits`, except that the constructor function it is attached to is the `child` argument, so all you have to do is provide a `parent` argument and, optionally, any shared/constructor methods.  The `inherits` method can be attached by passing your constructor function to `riveter.ensureHelpers` (it's attached automatically to any constructor that uses `extend` or `mixin`).
 
@@ -186,7 +186,7 @@ When `inherits` is attached to a constructor function, it's functionality is **i
     // Now, let's make Employee inherit from Person:
     Employee.inherits( Person );
 
-####extend
+#### extend
 `constructorFn.extend(childPrototypeProps [, ctorProps] );`
 
 `riveter.extend(constructorFn, childPrototypeProps [, ctorProps] );`
@@ -238,7 +238,7 @@ It's very common for JavaScript developers to have an existing constructor funct
 
 Note in the above examples we've taken a cue from Backbone.js in providing a no-op `initialize` call in the `Person` prototype, and we call it at the end of the `Person` constructor.  That way, if any inheriting constructor provides an implementation of `initialize`, it will call that instead.
 
-####punch
+#### punch
 `constructorFn.punch( mixin1 [, mixin2, mixin3, etc.] );`
 
 `riveter.punch( constructorFn, mixin1 [, mixin2, mixin3, etc.] );`

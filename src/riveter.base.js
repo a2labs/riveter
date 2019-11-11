@@ -92,14 +92,15 @@ riveter.compose = function() {
 
     var res = ctor.extend({
         constructor: function() {
+            var self = this;
             var args = slice.call(arguments, 0);
             _.each(mixin.preInit, function(initializer) {
-                initializer.apply(this, args);
-            }, this);
+                initializer.apply(self, args);
+            });
             ctor.prototype.constructor.apply(this, args);
             _.each(mixin.postInit, function(initializer) {
-                initializer.apply(this, args);
-            }, this);
+                initializer.apply(self, args);
+            });
         }
     });
     riveter.rivet(res);
