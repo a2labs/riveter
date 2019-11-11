@@ -1,8 +1,0 @@
-{
-    "name": "riveter",
-    "version": "0.2.0",
-    "main": ["lib/riveter.min.js", "lib/riveter.js"],
-    "dependencies": {
-        "lodash": "~4.17.15"
-    }
-}

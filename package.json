@@ -1,85 +1,74 @@
 {
-    "name": "node-riveter",
-    "description": "Mix-in, inheritance and constructor extend behavior for your JavaScript enjoyment.",
-    "version": "0.2.1",
-    "homepage": "https://github.com/zlintz/riveter",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/zlintz/riveter.git"
+  "name": "node-riveter",
+  "description": "Mix-in, inheritance and constructor extend behavior for your JavaScript enjoyment.",
+  "version": "0.2.1",
+  "homepage": "https://github.com/zlintz/riveter",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/zlintz/riveter.git"
+  },
+  "author": "Zach Lintz, original implemenation thanks to appendTo, LLC (http://appendTo.com)",
+  "contributors": [
+    {
+      "name": "Jim Cowart",
+      "email": "WhyNotJustComment@OnMyBlog.com",
+      "url": "http://ifandelse.com"
     },
-    "author": "Zach Lintz, original implemenation thanks to appendTo, LLC (http://appendTo.com)",
-    "contributors": [
-        {
-            "name": "Jim Cowart",
-            "email": "WhyNotJustComment@OnMyBlog.com",
-            "url": "http://ifandelse.com"
-        },
-        {
-            "name": "Nicholas Cloud",
-            "email": "WhyNotJustComment@OnMyBlog.com",
-            "url": "http://nicholascloud.com"
-        },
-        {
-            "name": "Doug Neiner",
-            "email": "WhyNotJustComment@OnMyBlog.com",
-            "url": "http://dougneiner.com/"
-        }
-    ],
-    "keywords": [
-        "mixin",
-        "mix-in",
-        "inherit",
-        "extend",
-        "constructor"
-    ],
-    "bugs": {
-        "email": "PleaseJustUseTheIssuesPage@github.com",
-        "url": "http://github.com/zlintz/riveter/issues"
+    {
+      "name": "Nicholas Cloud",
+      "email": "WhyNotJustComment@OnMyBlog.com",
+      "url": "http://nicholascloud.com"
     },
-    "directories": {
-        "lib": "lib"
+    {
+      "name": "Doug Neiner",
+      "email": "WhyNotJustComment@OnMyBlog.com",
+      "url": "http://dougneiner.com/"
+    }
+  ],
+  "keywords": [
+    "mixin",
+    "mix-in",
+    "inherit",
+    "extend",
+    "constructor"
+  ],
+  "bugs": {
+    "email": "PleaseJustUseTheIssuesPage@github.com",
+    "url": "http://github.com/zlintz/riveter/issues"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "main": "lib/riveter.js",
+  "engines": {
+    "node": ">=0.4.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "bower": "~1.2.8",
+    "coveralls": "^3.0.7",
+    "expect.js": "~0.2.0",
+    "express": "~3.4.7",
+    "mocha": "^6.2.2",
+    "nyc": "^14.1.1",
+    "open": "~0.0.4",
+    "tiny-lr": "0.0.5"
+  },
+  "scripts": {
+    "coverage": "nyc --exclude=**/*.spec.js --reporter=lcov npm run test ",
+    "test": "mocha ./spec/*.js",
+    "test:watch": "npm run test -- --watch"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
     },
-    "main": "lib/riveter.js",
-    "engines": {
-        "node": ">=0.4.0"
-    },
-    "dependencies": {
-        "lodash": "^4.17.15"
-    },
-    "devDependencies": {
-        "bower": "~1.2.8",
-        "coveralls": "^3.0.7",
-        "expect.js": "~0.2.0",
-        "express": "~3.4.7",
-        "gulp": "~3.3.1",
-        "gulp-beautify": "~1.0.3",
-        "gulp-header": "~1.0.2",
-        "gulp-hint-not": "~0.0.3",
-        "gulp-imports": "~0.0.1",
-        "gulp-plato": "~0.1.0",
-        "gulp-rename": "~0.2.1",
-        "gulp-rimraf": "0.0.8",
-        "gulp-uglify": "~0.1.0",
-        "gulp-util": "~2.2.9",
-        "mocha": "^6.2.2",
-        "nyc": "^14.1.1",
-        "open": "~0.0.4",
-        "tiny-lr": "0.0.5"
-    },
-    "scripts": {
-        "coverage": "nyc --exclude=**/*.spec.js --reporter=lcov npm run test ",
-        "test": "npm run build && mocha ./spec/*.js",
-        "build": "gulp",
-        "start": "gulp server"
-    },
-    "licenses": [
-        {
-            "type": "MIT",
-            "url": "http://opensource.org/licenses/MIT"
-        },
-        {
-            "type": "GPL",
-            "url": "http://opensource.org/licenses/GPL-2.0"
-        }
-    ]
+    {
+      "type": "GPL",
+      "url": "http://opensource.org/licenses/GPL-2.0"
+    }
+  ]
 }
