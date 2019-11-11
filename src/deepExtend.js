@@ -28,7 +28,7 @@ var behavior = {
         obj[sourcePropKey] = [];
         _.each(sourcePropVal, function(item, idx) {
             behavior[getHandlerName(item)](obj[sourcePropKey], idx, item);
-        }, this);
+        });
     }
 };
 
