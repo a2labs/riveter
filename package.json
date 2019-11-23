@@ -41,20 +41,16 @@
   },
   "main": "lib/riveter.js",
   "engines": {
-    "node": ">=0.4.0"
+    "node": "^8 || ^10 || ^12"
   },
   "dependencies": {
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "bower": "~1.2.8",
-    "coveralls": "^3.0.7",
-    "expect.js": "~0.2.0",
-    "express": "~3.4.7",
+    "coveralls": "^3.0.8",
+    "expect.js": "~0.3.1",
     "mocha": "^6.2.2",
-    "nyc": "^14.1.1",
-    "open": "~0.0.4",
-    "tiny-lr": "0.0.5"
+    "nyc": "^14.1.1"
   },
   "scripts": {
     "coverage": "nyc --exclude=**/*.spec.js --reporter=lcov npm run test ",

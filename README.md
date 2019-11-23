@@ -269,10 +269,7 @@ riveter is currently an 'appendTo Labs' effort. This means that we're excited ab
 riveter uses [gulp.js](http://gulpjs.com/) to build.
 
 * Install node.js (and consider using [nvm](https://github.com/creationix/nvm) to manage your node versions)
-* run `npm install` & `bower install` to install all dependencies
+* run `npm install` to install all dependencies
 * To build, run `npm run build` - then check the lib folder for the output
 * To run tests & examples:
     * To run node-based tests: `npm run test`
-    * To run browser-based tests & examples:
-        * run `npm start`
-        * navigate in your browser to <http://localhost:3080/>
