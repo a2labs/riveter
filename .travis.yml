@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - 6
-  - "node"
+  - 'node'
 
 script:
   - nyc --exclude=**/*.spec.js npm test && nyc report --reporter=text-lcov | coveralls

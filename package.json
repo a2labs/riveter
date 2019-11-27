@@ -47,15 +47,26 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "coveralls": "^3.0.8",
+    "coveralls": "^3.0.9",
     "expect.js": "~0.3.1",
     "mocha": "^6.2.2",
-    "nyc": "^14.1.1"
+    "nyc": "^14.1.1",
+    "prettier-standard": "^16.0.0"
   },
   "scripts": {
     "coverage": "nyc --exclude=**/*.spec.js --reporter=lcov npm run test ",
     "test": "mocha ./spec/*.js",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "precommit": "lint-staged",
+    "lint": "prettier-standard --lint"
+  },
+  "lint-staged": {
+    "linters": {
+      "**/*": [
+        "prettier-standard --lint",
+        "git add"
+      ]
+    }
   },
   "licenses": [
     {
